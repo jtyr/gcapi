@@ -51,14 +51,13 @@ func New(cfg ClientConfig) (*GrafanaCloudClient, error) {
 		Transport: &cfg.Transport,
 	}
 
-	if cfg.BaseURL == "" {
-		envUrl := os.Getenv("GRAFANA_CLOUD_API_URL")
+	envUrl := os.Getenv("GRAFANA_CLOUD_API_URL")
+	if envUrl != "" {
+		cfg.BaseURL = envUrl
+	}
 
-		if envUrl != "" {
-			cfg.BaseURL = envUrl
-		} else {
-			cfg.BaseURL = "https://grafana.com/api"
-		}
+	if cfg.BaseURL == "" {
+		cfg.BaseURL = "https://grafana.com/api"
 	}
 
 	var err error

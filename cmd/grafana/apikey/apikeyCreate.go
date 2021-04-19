@@ -11,7 +11,7 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdStackApiKeyCreate returns a new cobra command.
+// NewCmdCreate returns a new cobra command.
 func NewCmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create STACK_SLUG NAME ROLE",
@@ -37,7 +37,7 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 		cmd.Usage()
 		os.Exit(0)
 	} else if argsLen < 3 {
-		return errors.New("requires STACK_SLUG, NAME and ROLE arguments")
+		return errors.New("requires STACK_SLUG, NAME and ROLE argument")
 	}
 
 	if err := ak.SetStackSlug(args[0]); err != nil {

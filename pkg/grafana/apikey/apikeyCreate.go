@@ -8,27 +8,27 @@ import (
 	_client "github.com/jtyr/gcapi/pkg/client"
 )
 
-// apiKeyResp described properties of the API key returned by the API.
-type apiKeyResp struct {
+// createResp described properties of the API key returned by the API.
+type createResp struct {
 	Key string `json:"key"`
 }
 
 // Create creates a new Grafana API key and returns the value of the newly
 // created API key and the raw API response.
-func (ak *apiKey) Create() (string, string, error) {
-	client, err := _client.New(ClientConfig)
+func (a *apiKey) Create() (string, string, error) {
+	client, err := _client.New(a.ClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(ak.Endpoint, ak.StackSlug)
+	client.Endpoint = fmt.Sprintf(a.Endpoint, a.StackSlug)
 
 	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: ak.Name})
-	data = append(data, _client.Data{Key: "role", Value: ak.Role})
+	data = append(data, _client.Data{Key: "name", Value: a.Name})
+	data = append(data, _client.Data{Key: "role", Value: a.Role})
 
-	if ak.SecondsToLive != "" {
-		data = append(data, _client.Data{Key: "secondsToLive", Value: ak.SecondsToLive})
+	if a.SecondsToLive != "" {
+		data = append(data, _client.Data{Key: "secondsToLive", Value: a.SecondsToLive})
 	}
 
 	body, statusCode, err := client.Post(data)
@@ -40,7 +40,7 @@ func (ak *apiKey) Create() (string, string, error) {
 		}
 	}
 
-	var jsonData apiKeyResp
+	var jsonData createResp
 	if err := json.Unmarshal(body, &jsonData); err != nil {
 		return "", "", fmt.Errorf("cannot parse API response as JSON", err)
 	}

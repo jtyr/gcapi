@@ -9,7 +9,7 @@ import (
 
 // Delete deletes the API key.
 func (a *ApiKey) Delete() (string, error) {
-	client, err := _client.New(ClientConfig)
+	client, err := _client.New(a.ClientConfig)
 	if err != nil {
 		return "", fmt.Errorf("failed to get client: %s", err)
 	}

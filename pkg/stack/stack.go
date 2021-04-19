@@ -16,6 +16,9 @@ type Stack struct {
 
 	// Relative path to the api-keys endpoint
 	Endpoint string
+
+	// HTTP client configuration
+	ClientConfig client.ClientConfig
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
@@ -26,13 +29,14 @@ func New() *Stack {
 	s := Stack{}
 
 	s.Endpoint = "instances"
+	s.ClientConfig = ClientConfig
 
 	return &s
 }
 
 // SetToken sets the authorization token used to communicate with the API.
 func (s *Stack) SetToken(token string) {
-	ClientConfig.Token = token
+	s.ClientConfig.Token = token
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.

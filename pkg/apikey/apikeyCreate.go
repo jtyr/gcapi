@@ -16,7 +16,7 @@ type createResp struct {
 // Create creates a new API key and returns the value of newly created API key
 // and the raw API response.
 func (a *ApiKey) Create() (string, string, error) {
-	client, err := _client.New(ClientConfig)
+	client, err := _client.New(a.ClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
 	}

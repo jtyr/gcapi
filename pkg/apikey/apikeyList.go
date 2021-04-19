@@ -21,7 +21,7 @@ type listResp struct {
 
 // List returns the list of API keys and raw API response.
 func (a *ApiKey) List() (*[]ListItem, string, error) {
-	client, err := client.New(ClientConfig)
+	client, err := client.New(a.ClientConfig)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get client: %s", err)
 	}

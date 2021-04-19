@@ -22,8 +22,8 @@ type apiKey struct {
 	grafana.Grafana
 
 	// URL parameters
-	role          string
-	secondsToLive string
+	Role          string
+	SecondsToLive string
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
@@ -31,22 +31,24 @@ var ClientConfig client.ClientConfig
 
 // New returns new ApiKey.
 func New() *apiKey {
-	ak := apiKey{}
+	a := apiKey{}
 
-	ak.Endpoint = "instances/%s/api/auth/keys"
+	a.Endpoint = "instances/%s/api/auth/keys"
+	a.GrafanaEndpoint = "auth/keys"
+	a.ClientConfig = ClientConfig
 
-	return &ak
+	return &a
 }
 
 // SetRole makes sure the Role has correct value.
-func (ak *apiKey) SetRole(value string) error {
+func (a *apiKey) SetRole(value string) error {
 	switch strings.ToLower(value) {
 	case strings.ToLower(RoleAdmin):
-		ak.role = RoleAdmin
+		a.Role = RoleAdmin
 	case strings.ToLower(RoleEditor):
-		ak.role = RoleEditor
+		a.Role = RoleEditor
 	case strings.ToLower(RoleViewer):
-		ak.role = RoleViewer
+		a.Role = RoleViewer
 	default:
 		return fmt.Errorf("invalid Role value: %s", value)
 	}
@@ -55,9 +57,9 @@ func (ak *apiKey) SetRole(value string) error {
 }
 
 // SetSecondsToLive makes sure the secondsToLive has correct value.
-func (ak *apiKey) SetSecondsToLive(value uint64) error {
+func (a *apiKey) SetSecondsToLive(value uint64) error {
 	if value > 0 {
-		ak.secondsToLive = strconv.FormatUint(value, 10)
+		a.SecondsToLive = strconv.FormatUint(value, 10)
 	}
 
 	return nil

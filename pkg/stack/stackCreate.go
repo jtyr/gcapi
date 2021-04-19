@@ -11,7 +11,7 @@ import (
 // Create creates a new Stack and returns values of the newly created Stack and
 // the raw API response.
 func (s *Stack) Create() (*ListItem, string, error) {
-	client, err := _client.New(ClientConfig)
+	client, err := _client.New(s.ClientConfig)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get client: %s", err)
 	}

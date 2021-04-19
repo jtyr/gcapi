@@ -35,7 +35,7 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 		cmd.Usage()
 		os.Exit(0)
 	} else if argsLen < 3 {
-		return fmt.Errorf("requires ORG_SLUG, NAME and ROLE arguments")
+		return fmt.Errorf("requires ORG_SLUG, NAME and ROLE argument")
 	}
 
 	if err := ak.SetOrgSlug(args[0]); err != nil {

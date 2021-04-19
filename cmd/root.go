@@ -15,16 +15,14 @@ import (
 	"github.com/jtyr/gcapi/cmd/version"
 )
 
-// RootFlags describes a struct that holds flags that can be set on root level of the command.
-type RootFlags struct {
-	apiToken           string
-	apiTokenFile       string
+// rootFlags describes a struct that holds flags that can be set on root level of the command.
+type rootFlags struct {
 	timestampedLogging bool
 	version            bool
 }
 
 // flags holds the values of the flags.
-var flags = RootFlags{}
+var flags = rootFlags{}
 
 // rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
@@ -50,11 +48,11 @@ func GetRootCmd() *cobra.Command {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(
-		&flags.apiToken, "api-token", "t", "",
+	rootCmd.PersistentFlags().StringP(
+		"api-token", "t", "",
 		"token used to authenticate to the API")
-	rootCmd.PersistentFlags().StringVarP(
-		&flags.apiTokenFile, "api-token-file", "f", "",
+	rootCmd.PersistentFlags().StringP(
+		"api-token-file", "f", "",
 		"path to a file containing the token used to authenticate to the API")
 	rootCmd.PersistentFlags().BoolVar(
 		&flags.timestampedLogging, "timestamps", false,

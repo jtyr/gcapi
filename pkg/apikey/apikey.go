@@ -24,6 +24,9 @@ type ApiKey struct {
 
 	// Relative path to the api-keys endpoint
 	Endpoint string
+
+	// HTTP client configuration
+	ClientConfig client.ClientConfig
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
@@ -34,13 +37,14 @@ func New() *ApiKey {
 	a := ApiKey{}
 
 	a.Endpoint = "orgs/%s/api-keys"
+	a.ClientConfig = ClientConfig
 
 	return &a
 }
 
 // SetToken sets the authorization token used to communicate with the API.
 func (a *ApiKey) SetToken(token string) {
-	ClientConfig.Token = token
+	a.ClientConfig.Token = token
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.

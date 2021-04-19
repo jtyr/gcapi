@@ -5,25 +5,28 @@ import (
 	"strings"
 
 	"github.com/jtyr/gcapi/pkg/client"
-)
-
-const (
-	// Allowed API key Role values expected by the API
-	RoleAdmin  = "Admin"
-	RoleEditor = "Editor"
-	RoleViewer = "Viewer"
+	"github.com/jtyr/gcapi/pkg/stack"
 )
 
 // grafana holds information about the Grafana.
 type Grafana struct {
 	// URL parameters
-	StackSlug     string
-	Name          string
-	Role          string
-	SecondsToLive string
+	OrgSlug   string
+	StackSlug string
+	Name      string
 
 	// Relative path to the api-keys endpoint
-	Endpoint string
+	Endpoint        string
+	GrafanaEndpoint string
+
+	// API base address
+	BaseURL string
+
+	// HTTP client configuration
+	ClientConfig client.ClientConfig
+
+	// Grafana API token
+	GrafanaToken string
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
@@ -34,13 +37,32 @@ func New() *Grafana {
 	g := Grafana{}
 
 	g.Endpoint = "instances/%s"
+	g.ClientConfig = ClientConfig
 
 	return &g
 }
 
 // SetToken sets the authorization token used to communicate with the API.
 func (g *Grafana) SetToken(token string) {
-	ClientConfig.Token = token
+	g.ClientConfig.Token = token
+}
+
+// SetGrafanaToken sets the authorization token used to communicate with the
+// Grafana API.
+func (g *Grafana) SetGrafanaToken(token string) {
+	g.GrafanaToken = token
+}
+
+// SetOrgSlug makes sure the Org Slug is not an empty string.
+func (g *Grafana) SetOrgSlug(value string) error {
+	// TODO: Do further validation (only lowercase, no special chars?)
+	if len(strings.TrimSpace(value)) == 0 {
+		return fmt.Errorf(`invalid Org Slug value: "%s"`, value)
+	}
+
+	g.OrgSlug = value
+
+	return nil
 }
 
 // SetStackSlug makes sure the Stack Slug is not an empty string.
@@ -65,4 +87,43 @@ func (g *Grafana) SetName(value string) error {
 	g.Name = value
 
 	return nil
+}
+
+// SetBaseURL makes sure the BaseURL is not an empty string.
+func (g *Grafana) SetBaseURL(value string) error {
+	// TODO: Do further validation (only lowercase, no special chars?)
+	if len(strings.TrimSpace(value)) == 0 {
+		return fmt.Errorf("invalid BaseURL value: %s", value)
+	}
+
+	g.BaseURL = value
+
+	return nil
+}
+
+// GetGrafanaUrl returns the URL used for Grafana
+func (g *Grafana) GetGrafanaApiURL() (string, error) {
+	stack := stack.New()
+
+	if err := stack.SetOrgSlug(g.OrgSlug); err != nil {
+		return "", err
+	}
+
+	if err := stack.SetStackSlug(g.StackSlug); err != nil {
+		return "", err
+	}
+
+	stack.SetToken(g.ClientConfig.Token)
+
+	list, _, err := stack.List()
+	if err != nil {
+		return "", fmt.Errorf("failed to get stack details: %s", err)
+	}
+
+	var grafanaURL string
+	for _, item := range *list {
+		grafanaURL = item.GrafanaURL + "/api"
+	}
+
+	return grafanaURL, nil
 }

@@ -35,7 +35,7 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 		cmd.Usage()
 		os.Exit(0)
 	} else if argsLen < 2 {
-		return fmt.Errorf("requires ORG_SLUG and NAME arguments")
+		return fmt.Errorf("requires ORG_SLUG and NAME argument")
 	}
 
 	if err := ak.SetOrgSlug(args[0]); err != nil {

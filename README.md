@@ -75,6 +75,12 @@ gcapi-cli stack delete mystackslug
 gcapi-cli grafana restart mystackslug
 # Create Grafana API key
 gcapi-cli grafana apikey create mystackslug myname Viewer
+# List Grafana API keys
+gcapi-cli grafana apikey list mystackslug
+# List a specific Grafana API key
+gcapi-cli grafana apikey list mystackslug myname
+# Delete a Grafana API key
+gcapi-cli grafana apikey delete mystackslug myname
 
 ### TODO
 # Create a Grafana Datasource
@@ -83,12 +89,6 @@ gcapi-cli grafana datasource create mystackslug /path/to/my/datasource.json
 gcapi-cli grafana datasource list mystackslug
 # Delete a Grafana Datasource
 gcapi-cli grafana datasource delete mystackslug mydsid
-# List Grafana API keys
-gcapi-cli grafana apikey list mystackslug
-# List a specific Grafana API key
-gcapi-cli grafana apikey list mystackslug myname
-# Delete a Grafana API key
-gcapi-cli grafana apikey delete mystackslug myname
 ```
 
 Environment variables:
