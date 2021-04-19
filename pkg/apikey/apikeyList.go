@@ -8,7 +8,7 @@ import (
 	"github.com/jtyr/gcapi/pkg/client"
 )
 
-// ListItem described properties of individual ApiKey returned by the API.
+// ListItem described properties of individual List item returned by the API.
 type ListItem struct {
 	Name string `json:"name"`
 	Role string `json:"role"`
@@ -29,7 +29,7 @@ func (a *apiKey) List() (*[]ListItem, string, error) {
 	if a.name == "" {
 		client.Endpoint = fmt.Sprintf(a.endpoint, a.orgSlug)
 	} else {
-		client.Endpoint = fmt.Sprintf(a.endpoint + "/%s", a.orgSlug, a.name)
+		client.Endpoint = fmt.Sprintf(a.endpoint+"/%s", a.orgSlug, a.name)
 	}
 
 	body, statusCode, err := client.Get()

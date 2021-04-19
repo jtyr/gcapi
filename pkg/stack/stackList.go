@@ -8,7 +8,7 @@ import (
 	"github.com/jtyr/gcapi/pkg/client"
 )
 
-// ListItem described properties of individual ApiKey returned by the API.
+// ListItem described properties of individual List item returned by the API.
 type ListItem struct {
 	Name                     string `json:"name"`
 	Slug                     string `json:"slug"`

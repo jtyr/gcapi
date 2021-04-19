@@ -29,7 +29,9 @@ func NewCmdStackCreate() *cobra.Command {
 // checkCreateArgs checks if the positional arguments have correct value. If no
 // args are specified, it prints out the command usage.
 func checkCreateArgs(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
+	argsLen := len(args)
+
+	if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
 	}
@@ -38,7 +40,7 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	if len(args) == 2 {
+	if argsLen == 2 {
 		if err := st.SetName(args[1]); err != nil {
 			return err
 		}

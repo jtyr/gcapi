@@ -29,11 +29,13 @@ func NewCmdApiKeyCreate() *cobra.Command {
 // checkCreateArgs checks if the positional arguments have correct value. If no
 // args are specified, it prints out the command usage.
 func checkCreateArgs(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
+	argsLen := len(args)
+
+	if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
-	} else if len(args) < 3 {
-		return fmt.Errorf("requires ORG_SLUG, NAME and ROLE argument")
+	} else if argsLen < 3 {
+		return fmt.Errorf("requires ORG_SLUG, NAME and ROLE arguments")
 	}
 
 	if err := ak.SetOrgSlug(args[0]); err != nil {

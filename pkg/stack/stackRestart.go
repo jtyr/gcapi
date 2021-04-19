@@ -14,7 +14,7 @@ func (s *stack) Restart() (string, error) {
 		return "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(s.endpoint + "/%s/restart", s.stackSlug)
+	client.Endpoint = fmt.Sprintf(s.endpoint+"/%s/restart", s.stackSlug)
 
 	body, statusCode, err := client.Post(nil)
 	if err != nil {

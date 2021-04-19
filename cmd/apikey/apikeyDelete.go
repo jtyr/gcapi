@@ -29,11 +29,13 @@ func NewCmdApiKeyDelete() *cobra.Command {
 // checkDeleteArgs checks if the positional arguments have correct value. If no
 // args are specified, it prints out the command usage.
 func checkDeleteArgs(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
+	argsLen := len(args)
+
+	if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
-	} else if len(args) < 2 {
-		return fmt.Errorf("requires ORG_SLUG and NAME argument")
+	} else if argsLen < 2 {
+		return fmt.Errorf("requires ORG_SLUG and NAME arguments")
 	}
 
 	if err := ak.SetOrgSlug(args[0]); err != nil {

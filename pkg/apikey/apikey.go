@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	// Allowed values expected by the API
-	RoleViewer           = "Viewer"
+	// Allowed API key Role values expected by the API
+	RoleAdmin            = "Admin"
 	RoleEditor           = "Editor"
 	RoleMetricsPublisher = "MetricsPublisher"
-	RoleAdmin            = "Admin"
+	RoleViewer           = "Viewer"
 )
 
 // apiKey holds information about the API key.

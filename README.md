@@ -68,12 +68,12 @@ gcapi-cli stack list myorgslug myname
 gcapi-cli stack delete mystackslug
 # Restart a Stack
 gcapi-cli stack restart mystackslug
-
-### TODO
 # Create Stack API key
 gcapi-cli stack apikey create mystackslug myname Viewer
-# Create Stack API key with limitted life
+# Create Stack API key with limitted lifespan
 gcapi-cli stack apikey create mystackslug myname Viewer --secondsToLive 3600
+
+### TODO
 # List Stack datasources
 gcapi-cli stack datasource list mystackslug
 # Delete a Stack datasource
