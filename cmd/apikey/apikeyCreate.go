@@ -10,15 +10,15 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdApiKeyCreate returns a new cobra command.
-func NewCmdApiKeyCreate() *cobra.Command {
+// NewCmdCreate returns a new cobra command.
+func NewCmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create ORG_SLUG NAME ROLE",
 		Aliases: []string{"add"},
 		Short:   "Create API keys",
-		Long:    "Create Grafana Cloud API keys.",
+		Long:    "Create Grafana Cloud API keys and print it out.",
 		Args:    checkCreateArgs,
-		Run:     apiKeyCreateRun,
+		Run:     runCreate,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -59,8 +59,8 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// apiKeyCreateRun runs the command's action.
-func apiKeyCreateRun(cmd *cobra.Command, args []string) {
+// runCreate runs the command's action.
+func runCreate(cmd *cobra.Command, args []string) {
 	key, raw, err := ak.Create()
 	if err != nil {
 		log.Errorln("failed to create API key")
@@ -75,6 +75,6 @@ func apiKeyCreateRun(cmd *cobra.Command, args []string) {
 	if rawFlag {
 		fmt.Println(raw)
 	} else {
-		fmt.Printf("API key: %s\n", key)
+		fmt.Println(key)
 	}
 }

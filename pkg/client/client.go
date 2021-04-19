@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	_url "net/url"
+	"os"
 	"strings"
 )
 
@@ -51,7 +52,13 @@ func New(cfg ClientConfig) (*GrafanaCloudClient, error) {
 	}
 
 	if cfg.BaseURL == "" {
-		cfg.BaseURL = "https://grafana.com/api"
+		envUrl := os.Getenv("GRAFANA_CLOUD_API_URL")
+
+		if envUrl != "" {
+			cfg.BaseURL = envUrl
+		} else {
+			cfg.BaseURL = "https://grafana.com/api"
+		}
 	}
 
 	var err error

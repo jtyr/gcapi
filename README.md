@@ -45,6 +45,9 @@ Use "gcapi-cli [command] --help" for more information about a command.
 Examples:
 
 ```shell
+# Export the authorization token
+export GRAFANA_CLOUD_API_TOKEN='abcdefghijklmnopqrstuvwxyz0123456789'
+
 ### API key
 # Create a new API key
 gcapi-cli apikey create myorgslug myname
@@ -66,19 +69,32 @@ gcapi-cli stack list myorgslug
 gcapi-cli stack list myorgslug myname
 # Delete an API key
 gcapi-cli stack delete mystackslug
-# Restart a Stack
-gcapi-cli stack restart mystackslug
-# Create Stack API key
-gcapi-cli stack apikey create mystackslug myname Viewer
-# Create Stack API key with limitted lifespan
-gcapi-cli stack apikey create mystackslug myname Viewer --secondsToLive 3600
+
+### Grafana
+# Restart Grafana
+gcapi-cli grafana restart mystackslug
+# Create Grafana API key
+gcapi-cli grafana apikey create mystackslug myname Viewer
 
 ### TODO
-# List Stack datasources
-gcapi-cli stack datasource list mystackslug
-# Delete a Stack datasource
-gcapi-cli stack datasource delete mystackslug mydsid
+# Create a Grafana Datasource
+gcapi-cli grafana datasource create mystackslug /path/to/my/datasource.json
+# List Grafana Datasources
+gcapi-cli grafana datasource list mystackslug
+# Delete a Grafana Datasource
+gcapi-cli grafana datasource delete mystackslug mydsid
+# List Grafana API keys
+gcapi-cli grafana apikey list mystackslug
+# List a specific Grafana API key
+gcapi-cli grafana apikey list mystackslug myname
+# Delete a Grafana API key
+gcapi-cli grafana apikey delete mystackslug myname
 ```
+
+Environment variables:
+
+`GRAFANA_CLOUD_API_URL` - URL to the Grafana Cloud API (default `https://grafana.com/api`).
+`GRAFANA_CLOUD_API_TOKEN` - Authorization token used for communication with the Grafana Cloud API.
 
 
 ### Go package

@@ -16,20 +16,18 @@ func NewCmdStack() *cobra.Command {
 		Use:   "stack",
 		Short: "Manage stacks",
 		Long:  "Manage Grafana Cloud stacks.",
-		Run:   stackRun,
+		Run:   run,
 	}
 
-	cmd.AddCommand(NewCmdStackApiKey())
-	cmd.AddCommand(NewCmdStackCreate())
-	cmd.AddCommand(NewCmdStackDelete())
-	cmd.AddCommand(NewCmdStackList())
-	cmd.AddCommand(NewCmdStackRestart())
+	cmd.AddCommand(NewCmdCreate())
+	cmd.AddCommand(NewCmdDelete())
+	cmd.AddCommand(NewCmdList())
 
 	return cmd
 }
 
-// stackRun runs the command's action.
-func stackRun(cmd *cobra.Command, args []string) {
+// run runs the command's action.
+func run(cmd *cobra.Command, args []string) {
 	if err := cmd.Help(); err != nil {
 		log.Errorln("failed to get help text")
 		log.Fatalln(err)

@@ -16,18 +16,18 @@ func NewCmdApiKey() *cobra.Command {
 		Use:   "apikey",
 		Short: "Manage API keys",
 		Long:  "Manage Grafana Cloud API keys.",
-		Run:   apiKeyRun,
+		Run:   run,
 	}
 
-	cmd.AddCommand(NewCmdApiKeyCreate())
-	cmd.AddCommand(NewCmdApiKeyDelete())
-	cmd.AddCommand(NewCmdApiKeyList())
+	cmd.AddCommand(NewCmdCreate())
+	cmd.AddCommand(NewCmdDelete())
+	cmd.AddCommand(NewCmdList())
 
 	return cmd
 }
 
-// apiKeyRun runs the command's action.
-func apiKeyRun(cmd *cobra.Command, args []string) {
+// run runs the command's action.
+func run(cmd *cobra.Command, args []string) {
 	if err := cmd.Help(); err != nil {
 		log.Errorln("failed to get help text")
 		log.Fatalln(err)

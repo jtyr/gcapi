@@ -10,15 +10,15 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdStackCreate returns a new cobra command.
-func NewCmdStackCreate() *cobra.Command {
+// NewCmdCreate returns a new cobra command.
+func NewCmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create STACK_SLUG [NAME]",
 		Aliases: []string{"add"},
 		Short:   "Create stack",
 		Long:    "Create Grafana Cloud stack.",
 		Args:    checkCreateArgs,
-		Run:     stackCreateRun,
+		Run:     runCreate,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -60,8 +60,8 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// stackCreateRun runs the command's action.
-func stackCreateRun(cmd *cobra.Command, args []string) {
+// runCreate runs the command's action.
+func runCreate(cmd *cobra.Command, args []string) {
 	data, raw, err := st.Create()
 	if err != nil {
 		log.Errorln("failed to create stack")
@@ -76,6 +76,6 @@ func stackCreateRun(cmd *cobra.Command, args []string) {
 	if rawFlag {
 		fmt.Println(raw)
 	} else {
-		printStackItem(data)
+		printItem(data)
 	}
 }

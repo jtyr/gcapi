@@ -1,4 +1,4 @@
-package stack
+package grafana
 
 import (
 	"fmt"
@@ -11,14 +11,14 @@ import (
 )
 
 // NewCmdStackList returns a new cobra command.
-func NewCmdStackRestart() *cobra.Command {
+func NewCmdRestart() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "restart STACK_SLUG",
 		Aliases: []string{"ls"},
 		Short:   "Restart stack",
 		Long:    "Restart Grafana Cloud stack.",
 		Args:    checkRestartArgs,
-		Run:     stackRestartRun,
+		Run:     runRestart,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -34,12 +34,12 @@ func checkRestartArgs(cmd *cobra.Command, args []string) error {
 		os.Exit(0)
 	}
 
-	if err := st.SetStackSlug(args[0]); err != nil {
+	if err := gr.SetStackSlug(args[0]); err != nil {
 		return err
 	}
 
 	if token, err := common.GetToken(cmd); err == nil {
-		st.SetToken(token)
+		gr.SetToken(token)
 	} else {
 		return fmt.Errorf("failed to get authorization token: %s", err)
 	}
@@ -47,9 +47,9 @@ func checkRestartArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// stackRestartRun runs the command's action.
-func stackRestartRun(cmd *cobra.Command, args []string) {
-	raw, err := st.Restart()
+// runRestart runs the command's action.
+func runRestart(cmd *cobra.Command, args []string) {
+	raw, err := gr.Restart()
 	if err != nil {
 		log.Errorln("failed to restart stack")
 		log.Fatalln(err)

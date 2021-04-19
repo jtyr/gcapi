@@ -10,15 +10,15 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdApiKeyDelete returns a new cobra command.
-func NewCmdApiKeyDelete() *cobra.Command {
+// NewCmdDelete returns a new cobra command.
+func NewCmdDelete() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "delete ORG_SLUG NAME",
 		Aliases: []string{"del", "remove", "rm"},
 		Short:   "Delete API keys",
 		Long:    "Delete Grafana Cloud API keys.",
 		Args:    checkDeleteArgs,
-		Run:     apiKeyDeleteRun,
+		Run:     runDelete,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -55,8 +55,8 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// apiKeyDeleteRun runs the command's action.
-func apiKeyDeleteRun(cmd *cobra.Command, args []string) {
+// runDelete runs the command's action.
+func runDelete(cmd *cobra.Command, args []string) {
 	raw, err := ak.Delete()
 	if err != nil {
 		log.Errorln("failed to delete API keys")

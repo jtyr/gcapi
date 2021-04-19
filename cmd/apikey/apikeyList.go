@@ -11,15 +11,15 @@ import (
 	"github.com/jtyr/gcapi/pkg/apikey"
 )
 
-// NewCmdApiKeyList returns a new cobra command.
-func NewCmdApiKeyList() *cobra.Command {
+// NewCmdList returns a new cobra command.
+func NewCmdList() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "list ORG_SLUG [NAME]",
 		Aliases: []string{"ls"},
 		Short:   "List API keys",
 		Long:    "List Grafana Cloud API keys.",
 		Args:    checkListArgs,
-		Run:     apiKeyListRun,
+		Run:     runList,
 	}
 
 	cmd.Flags().BoolP("only-role-admin", "a", false, "show only API keys with Admin role")
@@ -60,8 +60,8 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// apiKeyListRun runs the command's action.
-func apiKeyListRun(cmd *cobra.Command, args []string) {
+// runList runs the command's action.
+func runList(cmd *cobra.Command, args []string) {
 	list, raw, err := ak.List()
 	if err != nil {
 		log.Errorln("failed to list API keys")
@@ -105,7 +105,7 @@ func apiKeyListRun(cmd *cobra.Command, args []string) {
 					fmt.Printf("### %d\n", i+1)
 				}
 
-				printStackItem(&k)
+				printItem(&k)
 
 				if i < listLen-1 {
 					fmt.Println("")
@@ -116,7 +116,7 @@ func apiKeyListRun(cmd *cobra.Command, args []string) {
 }
 
 // printStackItem prints out single API Key list item.
-func printStackItem(data *apikey.ListItem) {
+func printItem(data *apikey.ListItem) {
 	fmt.Printf("Name: %s\n", data.Name)
 	fmt.Printf("Role: %s\n", data.Role)
 }

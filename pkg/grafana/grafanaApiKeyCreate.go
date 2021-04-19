@@ -1,4 +1,4 @@
-package stack
+package grafana
 
 import (
 	"encoding/json"
@@ -15,20 +15,20 @@ type apiKey struct {
 
 // ApiKeyCreate creates a new Stack API key and returns the value of the newly
 // created API key and the raw API response.
-func (s *stack) ApiKeyCreate() (string, string, error) {
+func (g *grafana) ApiKeyCreate() (string, string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(s.endpoint+"/%s/api/auth/keys", s.stackSlug)
+	client.Endpoint = fmt.Sprintf(g.endpoint+"/api/auth/keys", g.stackSlug)
 
 	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: s.name})
-	data = append(data, _client.Data{Key: "role", Value: s.role})
+	data = append(data, _client.Data{Key: "name", Value: g.name})
+	data = append(data, _client.Data{Key: "role", Value: g.role})
 
-	if s.secondsToLive != "" {
-		data = append(data, _client.Data{Key: "secondsToLive", Value: s.secondsToLive})
+	if g.secondsToLive != "" {
+		data = append(data, _client.Data{Key: "secondsToLive", Value: g.secondsToLive})
 	}
 
 	body, statusCode, err := client.Post(data)

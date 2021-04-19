@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/jtyr/gcapi/cmd/apikey"
+	"github.com/jtyr/gcapi/cmd/grafana"
 	"github.com/jtyr/gcapi/cmd/stack"
 	"github.com/jtyr/gcapi/cmd/version"
 )
@@ -60,6 +61,7 @@ func init() {
 		"enable Log timestamps")
 
 	rootCmd.AddCommand(apikey.NewCmdApiKey())
+	rootCmd.AddCommand(grafana.NewCmdGrafana())
 	rootCmd.AddCommand(stack.NewCmdStack())
 	rootCmd.AddCommand(version.NewCmdVersion())
 

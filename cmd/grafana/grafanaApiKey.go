@@ -1,4 +1,4 @@
-package stack
+package grafana
 
 import (
 	log "github.com/sirupsen/logrus"
@@ -6,21 +6,21 @@ import (
 )
 
 // NewCmdApiKey returns a new cobra command.
-func NewCmdStackApiKey() *cobra.Command {
+func NewCmdApiKey() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apikey",
-		Short: "Manage stack API keys",
-		Long:  "Manage Grafana Cloud stack API keys.",
-		Run:   stackApiKeyRun,
+		Short: "Manage API keys",
+		Long:  "Manage Grafana API keys in a Grafana Cloud stack.",
+		Run:   apiKeyRun,
 	}
 
-	cmd.AddCommand(NewCmdStackApiKeyCreate())
+	cmd.AddCommand(NewCmdApiKeyCreate())
 
 	return cmd
 }
 
 // apiKeyRun runs the command's action.
-func stackApiKeyRun(cmd *cobra.Command, args []string) {
+func apiKeyRun(cmd *cobra.Command, args []string) {
 	if err := cmd.Help(); err != nil {
 		log.Errorln("failed to get help text")
 		log.Fatalln(err)

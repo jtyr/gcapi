@@ -10,15 +10,15 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdStackDelete returns a new cobra command.
-func NewCmdStackDelete() *cobra.Command {
+// NewCmdDelete returns a new cobra command.
+func NewCmdDelete() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "delete STACK_SLUG",
 		Aliases: []string{"del", "remove", "rm"},
 		Short:   "Delete stack",
 		Long:    "Delete Grafana Cloud stack.",
 		Args:    checkDeleteArgs,
-		Run:     stackDeleteRun,
+		Run:     runDelete,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -47,8 +47,8 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// stackDeleteRun runs the command's action.
-func stackDeleteRun(cmd *cobra.Command, args []string) {
+// runDelete runs the command's action.
+func runDelete(cmd *cobra.Command, args []string) {
 	raw, err := st.Delete()
 	if err != nil {
 		log.Errorln("failed to delete stack")

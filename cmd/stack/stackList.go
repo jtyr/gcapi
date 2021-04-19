@@ -11,15 +11,15 @@ import (
 	"github.com/jtyr/gcapi/pkg/stack"
 )
 
-// NewCmdStackList returns a new cobra command.
-func NewCmdStackList() *cobra.Command {
+// NewCmdList returns a new cobra command.
+func NewCmdList() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "list ORG_SLUG [STACK_SLUG]",
 		Aliases: []string{"ls"},
 		Short:   "List stacks",
 		Long:    "List Grafana Cloud stacks.",
 		Args:    checkListArgs,
-		Run:     stackListRun,
+		Run:     runList,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -56,8 +56,8 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// stackListRun runs the command's action.
-func stackListRun(cmd *cobra.Command, args []string) {
+// runList runs the command's action.
+func runList(cmd *cobra.Command, args []string) {
 	list, raw, err := st.List()
 	if err != nil {
 		log.Errorln("failed to list stacks")
@@ -79,7 +79,7 @@ func stackListRun(cmd *cobra.Command, args []string) {
 				fmt.Printf("### %d\n", i+1)
 			}
 
-			printStackItem(&k)
+			printItem(&k)
 
 			if i < listLen-1 {
 				fmt.Println("")
@@ -88,8 +88,8 @@ func stackListRun(cmd *cobra.Command, args []string) {
 	}
 }
 
-// printStackItem prints out single Stack list item.
-func printStackItem(data *stack.ListItem) {
+// printItem prints out single Stack list item.
+func printItem(data *stack.ListItem) {
 	fmt.Printf("Slug: %s\n", data.Slug)
 	fmt.Printf("Name: %s\n", data.Name)
 	fmt.Println("Alert Manager Generator:")
