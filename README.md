@@ -1,7 +1,9 @@
 Grafana Cloud API
 =================
 
-Golang package that allows an easy access to the Grafana Cloud API.
+Golang package that allows an easy access to the [Grafana Cloud
+API](https://grafana.com/docs/grafana-cloud/api/) (and [Grafana
+API](https://grafana.com/docs/grafana/latest/http_api/)).
 
 
 Compilation
@@ -45,10 +47,17 @@ Use "gcapi-cli [command] --help" for more information about a command.
 Examples:
 
 ```shell
-# Export the authorization token
+# Export the authorization token for Grafana Cloud API
 export GRAFANA_CLOUD_API_TOKEN='abcdefghijklmnopqrstuvwxyz0123456789'
+# Export the authorization token for Grafana API
+# (use "gcapi-cli grafana apikey create" to create one)
+# (needed only for some of the "gcapi-cli grafana" subcommands)
+export GRAFANA_API_TOKEN='9876543210zyxwvutsrqponmlkjihgfedcba'
 
+#####
 ### API key
+#####
+
 # Create a new API key
 gcapi-cli apikey create myorgslug myname
 # List all API keys
@@ -58,7 +67,10 @@ gcapi-cli apikey list myorgslug myname
 # Delete an API key
 gcapi-cli apikey delete myorgslug myname
 
+#####
 ### Stack
+#####
+
 # Create a new Stack if the Stack Slug is the same as the Name
 gcapi-cli stack create mystackslug
 # Create a new Stack if the Stack Slug is different from the Name
@@ -70,31 +82,63 @@ gcapi-cli stack list myorgslug myname
 # Delete an API key
 gcapi-cli stack delete mystackslug
 
+#####
 ### Grafana
+#####
+
 # Restart Grafana
 gcapi-cli grafana restart mystackslug
+
+## Grafana API key (using Grafana Cloud API and Grafana API)
 # Create Grafana API key
 gcapi-cli grafana apikey create mystackslug myname Viewer
 # List Grafana API keys
-gcapi-cli grafana apikey list mystackslug
+gcapi-cli grafana apikey list myorgslug mystackslug
 # List a specific Grafana API key
-gcapi-cli grafana apikey list mystackslug myname
+gcapi-cli grafana apikey list myorgslug mystackslug myname
 # Delete a Grafana API key
-gcapi-cli grafana apikey delete mystackslug myname
+gcapi-cli grafana apikey delete myorgslug mystackslug myname
 
-### TODO
+## Grafana API key (using only Grafana API)
+# Create Grafana API key
+gcapi-cli grafana apikey create  myname Viewer
+# List Grafana API keys
+gcapi-cli grafana apikey list myorgslug mystackslug
+# List a specific Grafana API key
+gcapi-cli grafana apikey list myorgslug mystackslug myname
+# Delete a Grafana API key
+gcapi-cli grafana apikey delete myorgslug mystackslug myname
+
+#####
+ ### TODO
+  #
+
+## Grafana Datasource
 # Create a Grafana Datasource
 gcapi-cli grafana datasource create mystackslug /path/to/my/datasource.json
 # List Grafana Datasources
 gcapi-cli grafana datasource list mystackslug
 # Delete a Grafana Datasource
-gcapi-cli grafana datasource delete mystackslug mydsid
+gcapi-cli grafana datasource delete mystackslug myid
+
+## Grafana Dashboard
+# Create a Grafana Dashboard
+gcapi-cli grafana datasource create myorgslug mystackslug /path/to/my/dashboard.json
+# List Grafana Dashboards
+gcapi-cli grafana datasource list myorgslug mystackslug
+# Delete a Grafana Dashboard
+gcapi-cli grafana datasource delete myorgslug mystackslug myid
 ```
 
 Environment variables:
 
-`GRAFANA_CLOUD_API_URL` - URL to the Grafana Cloud API (default `https://grafana.com/api`).
-`GRAFANA_CLOUD_API_TOKEN` - Authorization token used for communication with the Grafana Cloud API.
+- `GRAFANA_CLOUD_API_URL` - URL to the [Grafana Cloud
+     API](https://grafana.com/docs/grafana-cloud/api/) (default
+     `https://grafana.com/api`).
+- `GRAFANA_CLOUD_API_TOKEN` - Authorization token used for communication with
+     the [Grafana Cloud API](https://grafana.com/docs/grafana-cloud/api/).
+- `GRAFANA_API_TOKEN` - Authorization token used for communication with the
+     [Grafana API](https://grafana.com/docs/grafana/latest/http_api/).
 
 
 ### Go package
@@ -130,6 +174,12 @@ func main() {
 	fmt.Printf("New API key is: %s\n", key)
 }
 ```
+
+
+TODO
+----
+
+- Testing (help wanted)
 
 
 Author
