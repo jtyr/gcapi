@@ -33,8 +33,11 @@ var ClientConfig client.ClientConfig
 func New() *apiKey {
 	a := apiKey{}
 
+	// Set API endpoints
 	a.Endpoint = "instances/%s/api/auth/keys"
 	a.GrafanaEndpoint = "auth/keys"
+
+	// Set HTTP client config
 	a.ClientConfig = ClientConfig
 
 	return &a

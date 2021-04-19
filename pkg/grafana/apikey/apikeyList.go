@@ -10,6 +10,7 @@ import (
 
 // ListItem described properties of individual List item returned by the API.
 type ListItem struct {
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 	Role string `json:"role"`
 }

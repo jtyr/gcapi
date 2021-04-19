@@ -16,8 +16,8 @@ func NewCmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create STACK_SLUG NAME ROLE",
 		Aliases: []string{"add"},
-		Short:   "Create stack API key",
-		Long:    "Create Grafana API key in the Grafana Cloud and print it out.",
+		Short:   "Create API key",
+		Long:    "Create Grafana API key and print it out.",
 		Args:    checkCreateArgs,
 		Run:     runCreate,
 	}

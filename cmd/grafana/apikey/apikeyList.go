@@ -65,12 +65,12 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 				return err
 			}
 		}
-	}
 
-	if token, err := common.GetToken(cmd); err == nil {
-		ak.SetToken(token)
-	} else {
-		return fmt.Errorf("failed to get authorization token: %s", err)
+		if token, err := common.GetToken(cmd); err == nil {
+			ak.SetToken(token)
+		} else {
+			return fmt.Errorf("failed to get authorization token: %s", err)
+		}
 	}
 
 	if token, err := common.GetGrafanaToken(cmd); err == nil {
@@ -113,7 +113,11 @@ func runList(cmd *cobra.Command, args []string) {
 		listLen := len(*list)
 
 		for i, k := range *list {
-			if !(oraFlag || oreFlag || orvFlag) ||
+			if ak.Name != "" {
+				if k.Name == ak.Name {
+					printItem(&k)
+				}
+			} else if !(oraFlag || oreFlag || orvFlag) ||
 				(oraFlag && k.Role == apikey.RoleAdmin) ||
 				(oreFlag && k.Role == apikey.RoleEditor) ||
 				(orvFlag && k.Role == apikey.RoleViewer) {
@@ -134,6 +138,7 @@ func runList(cmd *cobra.Command, args []string) {
 
 // printItem prints out single API Key list item.
 func printItem(data *apikey.ListItem) {
+	fmt.Printf("ID: %d\n", data.ID)
 	fmt.Printf("Name: %s\n", data.Name)
 	fmt.Printf("Role: %s\n", data.Role)
 }

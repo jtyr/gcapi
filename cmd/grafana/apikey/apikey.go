@@ -27,6 +27,7 @@ func NewCmdApiKey() *cobra.Command {
 		"path to a file containing the token used to authenticate to the Grafana API")
 
 	cmd.AddCommand(NewCmdCreate())
+	cmd.AddCommand(NewCmdDelete())
 	cmd.AddCommand(NewCmdList())
 
 	return cmd
