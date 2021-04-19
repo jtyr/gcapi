@@ -15,7 +15,7 @@ import (
 // NewCmdList returns a new cobra command.
 func NewCmdList() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "list (ORG_SLUG STACK_SLUG [NAME]|--grafana-api-url STRING)",
+		Use:     "list (ORG_SLUG STACK_SLUG|--grafana-api-url STRING) [NAME]",
 		Aliases: []string{"add"},
 		Short:   "List stack API keys",
 		Long:    "List Grafana API keys in a specific Stack of the Grafana Cloud and print them out.",
@@ -35,20 +35,26 @@ func NewCmdList() *cobra.Command {
 // checkListArgs checks if the positional arguments have correct
 // value. If no args are specified, it prints out the command usage.
 func checkListArgs(cmd *cobra.Command, args []string) error {
-	gauFlag, err := cmd.Flags().GetString("grafana-api-url")
+	gauFlag, err := common.GetGrafanaApiURL(cmd)
 	if err != nil {
-		log.Fatalf("failed to get raw flag value: %s", err)
+		log.Fatalf("failed to get Grafana API URL: %s", err)
 	}
 
 	argsLen := len(args)
 
-	if argsLen == 0 {
-		cmd.Usage()
-		os.Exit(0)
-	} else if gauFlag != "" {
+	if gauFlag != "" {
 		if err := ak.SetBaseURL(gauFlag); err != nil {
 			return err
 		}
+
+		if argsLen == 1 {
+			if err := ak.SetName(args[0]); err != nil {
+				return err
+			}
+		}
+	} else if argsLen == 0 {
+		cmd.Usage()
+		os.Exit(0)
 	} else if argsLen < 2 {
 		return errors.New("requires ORG_SLUG and STACK_SLUG argument")
 	} else {
@@ -86,8 +92,7 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 func runList(cmd *cobra.Command, args []string) {
 	list, raw, err := ak.List()
 	if err != nil {
-		log.Errorln("failed to get API keys")
-		log.Fatalln(err)
+		log.Fatalf("failed to get API keys: %s", err)
 	}
 
 	oraFlag, err := cmd.Flags().GetBool("only-role-admin")
@@ -107,6 +112,8 @@ func runList(cmd *cobra.Command, args []string) {
 		log.Fatalf("failed to get raw flag value: %s", err)
 	}
 
+	printed := false
+
 	if rawFlag {
 		fmt.Println(raw)
 	} else {
@@ -116,6 +123,7 @@ func runList(cmd *cobra.Command, args []string) {
 			if ak.Name != "" {
 				if k.Name == ak.Name {
 					printItem(&k)
+					printed = true
 				}
 			} else if !(oraFlag || oreFlag || orvFlag) ||
 				(oraFlag && k.Role == apikey.RoleAdmin) ||
@@ -133,6 +141,10 @@ func runList(cmd *cobra.Command, args []string) {
 				}
 			}
 		}
+	}
+
+	if !printed && ak.Name != "" {
+		log.Fatal("API key not found")
 	}
 }
 

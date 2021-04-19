@@ -76,8 +76,7 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 func runCreate(cmd *cobra.Command, args []string) {
 	key, raw, err := ak.Create()
 	if err != nil {
-		log.Errorln("failed to create API key")
-		log.Fatalln(err)
+		log.Fatalf("failed to create API key: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

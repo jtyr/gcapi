@@ -46,9 +46,9 @@ func (s *Stack) List() (*[]ListItem, string, error) {
 	if err != nil {
 		if statusCode == 404 {
 			return nil, "", errors.New("Stack Slug not found")
-		} else {
-			return nil, "", err
 		}
+
+		return nil, "", err
 	}
 
 	var jsonData listResp

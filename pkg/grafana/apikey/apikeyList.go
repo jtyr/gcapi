@@ -15,11 +15,11 @@ type ListItem struct {
 	Role string `json:"role"`
 }
 
-// listResp described properties of the document returned by the API.
-type listResp []ListItem
+// ListResp described properties of the document returned by the API.
+type ListResp []ListItem
 
 // List lists Grafana API keys and returns the list and the raw API response.
-func (a *apiKey) List() (*listResp, string, error) {
+func (a *APIKey) List() (*ListResp, string, error) {
 	// Use Grafana API token
 	grafanaClientConfig := a.ClientConfig
 	grafanaClientConfig.Token = a.GrafanaToken
@@ -27,7 +27,7 @@ func (a *apiKey) List() (*listResp, string, error) {
 	if a.BaseURL == "" {
 		// Get Grafana API URL
 		var err error
-		grafanaClientConfig.BaseURL, err = a.GetGrafanaApiURL()
+		grafanaClientConfig.BaseURL, err = a.GetGrafanaAPIURL()
 		if err != nil {
 			return nil, "", fmt.Errorf("failed to get Grafana API URL: %s", err)
 		}
@@ -46,12 +46,12 @@ func (a *apiKey) List() (*listResp, string, error) {
 	if err != nil {
 		if statusCode == 404 {
 			return nil, "", errors.New("Grafana instance not found")
-		} else {
-			return nil, "", err
 		}
+
+		return nil, "", err
 	}
 
-	var jsonData listResp
+	var jsonData ListResp
 	if err := json.Unmarshal(body, &jsonData); err != nil {
 		return nil, "", fmt.Errorf("cannot parse API response as JSON", err)
 	}

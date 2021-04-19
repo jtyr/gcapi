@@ -18,13 +18,13 @@ type Stack struct {
 	Endpoint string
 
 	// HTTP client configuration
-	ClientConfig client.ClientConfig
+	ClientConfig client.Config
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
-var ClientConfig client.ClientConfig
+var ClientConfig client.Config
 
-// New returns new ApiKey.
+// New returns new Stack.
 func New() *Stack {
 	s := Stack{}
 

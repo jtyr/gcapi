@@ -8,7 +8,7 @@ import (
 )
 
 // Delete deletes Grafana API keys and returns the raw API response.
-func (a *apiKey) Delete() (string, error) {
+func (a *APIKey) Delete() (string, error) {
 	// Use Grafana API token
 	grafanaClientConfig := a.ClientConfig
 	grafanaClientConfig.Token = a.GrafanaToken
@@ -16,7 +16,7 @@ func (a *apiKey) Delete() (string, error) {
 	if a.BaseURL == "" {
 		// Get Grafana API URL
 		var err error
-		grafanaClientConfig.BaseURL, err = a.GetGrafanaApiURL()
+		grafanaClientConfig.BaseURL, err = a.GetGrafanaAPIURL()
 		if err != nil {
 			return "", fmt.Errorf("failed to get Grafana API URL: %s", err)
 		}
@@ -34,7 +34,7 @@ func (a *apiKey) Delete() (string, error) {
 		return "", fmt.Errorf("failed to get API key ID: %s", err)
 	}
 
-	var keyID int
+	keyID := -1
 	for _, item := range *list {
 		if a.Name == item.Name {
 			keyID = item.ID
@@ -43,15 +43,19 @@ func (a *apiKey) Delete() (string, error) {
 		}
 	}
 
+	if keyID == -1 {
+		return "", errors.New("API key not found")
+	}
+
 	client.Endpoint = fmt.Sprintf(a.GrafanaEndpoint+"/%d", keyID)
 
 	body, statusCode, err := client.Delete()
 	if err != nil {
 		if statusCode == 404 {
 			return "", errors.New("API key not found")
-		} else {
-			return "", err
 		}
+
+		return "", err
 	}
 
 	return string(body), nil

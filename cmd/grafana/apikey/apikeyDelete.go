@@ -31,9 +31,9 @@ func NewCmdDelete() *cobra.Command {
 // checkDeleteArgs checks if the positional arguments have correct
 // value. If no args are specified, it prints out the command usage.
 func checkDeleteArgs(cmd *cobra.Command, args []string) error {
-	gauFlag, err := cmd.Flags().GetString("grafana-api-url")
+	gauFlag, err := common.GetGrafanaApiURL(cmd)
 	if err != nil {
-		log.Fatalf("failed to get raw flag value: %s", err)
+		log.Fatalf("failed to get Grafana API URL: %s", err)
 	}
 
 	argsLen := len(args)
@@ -44,6 +44,10 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 	} else if gauFlag != "" {
 		if argsLen == 0 {
 			return errors.New("requires NAME argument")
+		}
+
+		if err := ak.SetName(args[0]); err != nil {
+			return err
 		}
 
 		if err := ak.SetBaseURL(gauFlag); err != nil {
@@ -84,8 +88,7 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 func runDelete(cmd *cobra.Command, args []string) {
 	raw, err := ak.Delete()
 	if err != nil {
-		log.Errorln("failed to delete API key")
-		log.Fatalln(err)
+		log.Fatalf("failed to delete API key: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

@@ -7,34 +7,34 @@ import (
 	"github.com/jtyr/gcapi/pkg/client"
 )
 
+// Allowed API key Role values expected by the API
 const (
-	// Allowed API key Role values expected by the API
 	RoleAdmin            = "Admin"
 	RoleEditor           = "Editor"
 	RoleMetricsPublisher = "MetricsPublisher"
 	RoleViewer           = "Viewer"
 )
 
-// ApiKey holds information about the API key.
-type ApiKey struct {
+// APIKey holds information about the API key.
+type APIKey struct {
 	// URL parameters
 	OrgSlug string
-	Name    string
-	Role    string
+	Name string
+	Role string
 
 	// Relative path to the api-keys endpoint
 	Endpoint string
 
 	// HTTP client configuration
-	ClientConfig client.ClientConfig
+	ClientConfig client.Config
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
-var ClientConfig client.ClientConfig
+var ClientConfig client.Config
 
-// New returns new ApiKey.
-func New() *ApiKey {
-	a := ApiKey{}
+// New returns new APIKey.
+func New() *APIKey {
+	a := APIKey{}
 
 	a.Endpoint = "orgs/%s/api-keys"
 	a.ClientConfig = ClientConfig
@@ -43,12 +43,12 @@ func New() *ApiKey {
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (a *ApiKey) SetToken(token string) {
+func (a *APIKey) SetToken(token string) {
 	a.ClientConfig.Token = token
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.
-func (a *ApiKey) SetOrgSlug(value string) error {
+func (a *APIKey) SetOrgSlug(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf(`invalid Org Slug value: "%s"`, value)
@@ -60,7 +60,7 @@ func (a *ApiKey) SetOrgSlug(value string) error {
 }
 
 // SetName makes sure the Name is not an empty string.
-func (a *ApiKey) SetName(value string) error {
+func (a *APIKey) SetName(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf("invalid Name value: %s", value)
@@ -72,7 +72,7 @@ func (a *ApiKey) SetName(value string) error {
 }
 
 // SetRole makes sure the role has correct value.
-func (a *ApiKey) SetRole(value string) error {
+func (a *APIKey) SetRole(value string) error {
 	switch strings.ToLower(value) {
 	case strings.ToLower(RoleAdmin):
 		a.Role = RoleAdmin

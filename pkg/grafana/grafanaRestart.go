@@ -20,9 +20,9 @@ func (g *Grafana) Restart() (string, error) {
 	if err != nil {
 		if statusCode == 404 {
 			return "", errors.New("Stack Slug not found")
-		} else {
-			return "", err
 		}
+
+		return "", err
 	}
 
 	return string(body), nil

@@ -20,9 +20,9 @@ func (s *Stack) Delete() (string, error) {
 	if err != nil {
 		if statusCode == 404 {
 			return "", errors.New("API key not found")
-		} else {
-			return "", err
 		}
+
+		return "", err
 	}
 
 	return string(body), nil

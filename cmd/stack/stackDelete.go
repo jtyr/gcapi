@@ -51,8 +51,7 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 func runDelete(cmd *cobra.Command, args []string) {
 	raw, err := st.Delete()
 	if err != nil {
-		log.Errorln("failed to delete stack")
-		log.Fatalln(err)
+		log.Fatalf("failed to delete stack: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

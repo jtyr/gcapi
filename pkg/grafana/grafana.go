@@ -8,7 +8,7 @@ import (
 	"github.com/jtyr/gcapi/pkg/stack"
 )
 
-// grafana holds information about the Grafana.
+// Grafana holds information about the Grafana.
 type Grafana struct {
 	// URL parameters
 	OrgSlug   string
@@ -23,16 +23,16 @@ type Grafana struct {
 	BaseURL string
 
 	// HTTP client configuration
-	ClientConfig client.ClientConfig
+	ClientConfig client.Config
 
 	// Grafana API token
 	GrafanaToken string
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
-var ClientConfig client.ClientConfig
+var ClientConfig client.Config
 
-// New returns new ApiKey.
+// New returns new Grafana.
 func New() *Grafana {
 	g := Grafana{}
 
@@ -101,8 +101,8 @@ func (g *Grafana) SetBaseURL(value string) error {
 	return nil
 }
 
-// GetGrafanaUrl returns the URL used for Grafana
-func (g *Grafana) GetGrafanaApiURL() (string, error) {
+// GetGrafanaAPIURL returns the URL used for Grafana
+func (g *Grafana) GetGrafanaAPIURL() (string, error) {
 	stack := stack.New()
 
 	if err := stack.SetOrgSlug(g.OrgSlug); err != nil {

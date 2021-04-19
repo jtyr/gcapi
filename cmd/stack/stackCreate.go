@@ -64,8 +64,7 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 func runCreate(cmd *cobra.Command, args []string) {
 	data, raw, err := st.Create()
 	if err != nil {
-		log.Errorln("failed to create stack")
-		log.Fatalln(err)
+		log.Fatalf("failed to create stack: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

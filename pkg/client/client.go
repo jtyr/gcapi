@@ -9,29 +9,29 @@ import (
 	"strings"
 )
 
-// ClientConfig allows to override default HTTP client configuration.
-type ClientConfig struct {
-	// API base address
+// Config allows to override default HTTP client configuration.
+type Config struct {
+	// BaseURL is API base address
 	BaseURL string
 
-	// Authorization token
+	// Token is authorization token
 	Token string
 
-	// Allows to override the default HTTP transport of the client
+	// Transport allows to override the default HTTP transport of the client
 	Transport http.Transport
 }
 
 // GrafanaCloudClient holds the HTTP client configuration.
 type GrafanaCloudClient struct {
-	// HTTP client
+	// Client refers to the HTTP client
 	Client *http.Client
-	// Relative URL to the API endpoint
+	// Endpoint os relative URL to the API endpoint
 	Endpoint string
 
-	// Authorization token
+	// token ia authorization token
 	token string
 
-	// Base URL used to construct the full endpoint URL
+	// baseURL is base URL used to construct the full endpoint URL
 	baseURL *_url.URL
 }
 
@@ -42,7 +42,7 @@ type Data struct {
 }
 
 // New creates new client.
-func New(cfg ClientConfig) (*GrafanaCloudClient, error) {
+func New(cfg Config) (*GrafanaCloudClient, error) {
 	c := GrafanaCloudClient{}
 
 	c.token = cfg.Token
@@ -51,9 +51,9 @@ func New(cfg ClientConfig) (*GrafanaCloudClient, error) {
 		Transport: &cfg.Transport,
 	}
 
-	envUrl := os.Getenv("GRAFANA_CLOUD_API_URL")
-	if envUrl != "" {
-		cfg.BaseURL = envUrl
+	envURL := os.Getenv("GRAFANA_CLOUD_API_URL")
+	if envURL != "" {
+		cfg.BaseURL = envURL
 	}
 
 	if cfg.BaseURL == "" {

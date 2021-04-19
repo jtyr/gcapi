@@ -11,7 +11,7 @@ import (
 // gr holds validated Grafana.
 var gr = grafana.New()
 
-// NewCmdStack returns a new cobra command.
+// NewCmdGrafana returns a new cobra command.
 func NewCmdGrafana() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "grafana",
@@ -20,7 +20,7 @@ func NewCmdGrafana() *cobra.Command {
 		Run:   grafanaRun,
 	}
 
-	cmd.AddCommand(apikey.NewCmdApiKey())
+	cmd.AddCommand(apikey.NewCmdAPIKey())
 	cmd.AddCommand(NewCmdRestart())
 
 	return cmd
@@ -29,7 +29,6 @@ func NewCmdGrafana() *cobra.Command {
 // grafanaRun runs the command's action.
 func grafanaRun(cmd *cobra.Command, args []string) {
 	if err := cmd.Help(); err != nil {
-		log.Errorln("failed to get help text")
-		log.Fatalln(err)
+		log.Fatalf("failed to get help text: %s", err)
 	}
 }

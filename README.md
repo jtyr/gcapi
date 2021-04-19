@@ -30,16 +30,17 @@ Usage:
 
 Available Commands:
   apikey      Manage API keys
+  grafana     Manage Grafana
   help        Help about any command
   stack       Manage Stacks
   version     Show version
 
 Flags:
-  -t, --api-token string        Grafana Cloud API token
-  -f, --api-token-file string   path to a file containing the Grafana Cloud API token
-  -h, --help                    help for gcapi-cli
-      --timestamps              enable Log timestamps
-  -v, --version                 version for gcapi-cli
+  -t, --cloud-api-token string        Grafana Cloud API token
+  -f, --cloud-api-token-file string   path to a file containing the Grafana Cloud API token
+  -h, --help                          help for gcapi-cli
+      --timestamps                    enable Log timestamps
+  -v, --version                       version for gcapi-cli
 
 Use "gcapi-cli [command] --help" for more information about a command.
 ```
@@ -47,9 +48,12 @@ Use "gcapi-cli [command] --help" for more information about a command.
 Examples:
 
 ```shell
-# Export the authorization token for Grafana Cloud API
+# Export the authorization token for the Grafana Cloud API
 export GRAFANA_CLOUD_API_TOKEN='abcdefghijklmnopqrstuvwxyz0123456789'
-# Export the authorization token for Grafana API
+# Export Grafana API URL
+# (needed only for some of the "gcapi-cli grafana" subcommands)
+export GRAFANA_API_URL='http://grafana.domain.com/api'
+# Export the authorization token for the Grafana API
 # (use "gcapi-cli grafana apikey create" to create one)
 # (needed only for some of the "gcapi-cli grafana" subcommands)
 export GRAFANA_API_TOKEN='9876543210zyxwvutsrqponmlkjihgfedcba'
@@ -101,13 +105,13 @@ gcapi-cli grafana apikey delete myorgslug mystackslug myname
 
 ## Grafana API key (using only Grafana API)
 # Create Grafana API key
-gcapi-cli grafana apikey create  myname Viewer
+gcapi-cli grafana apikey create myname Viewer
 # List Grafana API keys
-gcapi-cli grafana apikey list myorgslug mystackslug
+gcapi-cli grafana apikey list
 # List a specific Grafana API key
-gcapi-cli grafana apikey list myorgslug mystackslug myname
+gcapi-cli grafana apikey list myname
 # Delete a Grafana API key
-gcapi-cli grafana apikey delete myorgslug mystackslug myname
+gcapi-cli grafana apikey delete myname
 
 #####
  ### TODO
@@ -132,13 +136,25 @@ gcapi-cli grafana datasource delete myorgslug mystackslug myid
 
 Environment variables:
 
+- `GRAFANA_API_TOKEN` - Authorization token used for communication with the
+     [Grafana API](https://grafana.com/docs/grafana/latest/http_api/). This
+     variable overrides `--grafana-api-token` and `--grafana-api-token-file` if
+     they are specified. Needed only for some of the `gcapi-cli grafana`
+     subcommands that are using the [Grafana
+     API](https://grafana.com/docs/grafana/latest/http_api/).
+- `GRAFANA_API_URL` - URL to the [Grafana
+     API](https://grafana.com/docs/grafana/latest/http_api/) (e.g.
+     `http://grafana.domain.com/api`). This variable overrides
+     `--grafana-api-url` if specified. Needed only for some of the `gcapi-cli
+     grafana` subcommands that are using the [Grafana
+     API](https://grafana.com/docs/grafana/latest/http_api/).
+- `GRAFANA_CLOUD_API_TOKEN` - Authorization token used for communication with
+     the [Grafana Cloud API](https://grafana.com/docs/grafana-cloud/api/). This
+     variable overrides `--cloud-api-token` and `--cloud-api-token-file` if
+     specified.
 - `GRAFANA_CLOUD_API_URL` - URL to the [Grafana Cloud
      API](https://grafana.com/docs/grafana-cloud/api/) (default
      `https://grafana.com/api`).
-- `GRAFANA_CLOUD_API_TOKEN` - Authorization token used for communication with
-     the [Grafana Cloud API](https://grafana.com/docs/grafana-cloud/api/).
-- `GRAFANA_API_TOKEN` - Authorization token used for communication with the
-     [Grafana API](https://grafana.com/docs/grafana/latest/http_api/).
 
 
 ### Go package

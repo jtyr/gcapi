@@ -49,16 +49,16 @@ func GetRootCmd() *cobra.Command {
 
 func init() {
 	rootCmd.PersistentFlags().StringP(
-		"api-token", "t", "",
-		"token used to authenticate to the API")
+		"cloud-api-token", "t", "",
+		"token used to authenticate to the Grafana Cloud API")
 	rootCmd.PersistentFlags().StringP(
-		"api-token-file", "f", "",
-		"path to a file containing the token used to authenticate to the API")
+		"cloud-api-token-file", "f", "",
+		"path to a file containing the token used to authenticate to the Grafana Cloud API")
 	rootCmd.PersistentFlags().BoolVar(
 		&flags.timestampedLogging, "timestamps", false,
 		"enable Log timestamps")
 
-	rootCmd.AddCommand(apikey.NewCmdApiKey())
+	rootCmd.AddCommand(apikey.NewCmdAPIKey())
 	rootCmd.AddCommand(grafana.NewCmdGrafana())
 	rootCmd.AddCommand(stack.NewCmdStack())
 	rootCmd.AddCommand(version.NewCmdVersion())

@@ -26,9 +26,9 @@ func (s *Stack) Create() (*ListItem, string, error) {
 	if err != nil {
 		if statusCode == 409 {
 			return nil, "", errors.New("stack with this name already exists")
-		} else {
-			return nil, "", err
 		}
+
+		return nil, "", err
 	}
 
 	var jsonData ListItem

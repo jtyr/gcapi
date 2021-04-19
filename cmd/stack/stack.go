@@ -29,7 +29,6 @@ func NewCmdStack() *cobra.Command {
 // run runs the command's action.
 func run(cmd *cobra.Command, args []string) {
 	if err := cmd.Help(); err != nil {
-		log.Errorln("failed to get help text")
-		log.Fatalln(err)
+		log.Fatalf("failed to get help text: %s", err)
 	}
 }

@@ -15,7 +15,7 @@ type createResp struct {
 
 // Create creates a new Grafana API key and returns the value of the newly
 // created API key and the raw API response.
-func (a *apiKey) Create() (string, string, error) {
+func (a *APIKey) Create() (string, string, error) {
 	client, err := _client.New(a.ClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
@@ -35,9 +35,9 @@ func (a *apiKey) Create() (string, string, error) {
 	if err != nil {
 		if statusCode == 409 {
 			return "", "", errors.New("API key with this name already exists")
-		} else {
-			return "", "", err
 		}
+
+		return "", "", err
 	}
 
 	var jsonData createResp

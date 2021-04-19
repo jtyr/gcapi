@@ -20,7 +20,7 @@ type listResp struct {
 }
 
 // List returns the list of API keys and raw API response.
-func (a *ApiKey) List() (*[]ListItem, string, error) {
+func (a *APIKey) List() (*[]ListItem, string, error) {
 	client, err := client.New(a.ClientConfig)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get client: %s", err)
@@ -36,9 +36,9 @@ func (a *ApiKey) List() (*[]ListItem, string, error) {
 	if err != nil {
 		if statusCode == 404 {
 			return nil, "", errors.New("Org Slug not found")
-		} else {
-			return nil, "", err
 		}
+
+		return nil, "", err
 	}
 
 	var jsonData listResp

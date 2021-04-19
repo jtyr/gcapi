@@ -10,7 +10,7 @@ import (
 	"github.com/jtyr/gcapi/cmd/common"
 )
 
-// NewCmdStackList returns a new cobra command.
+// NewCmdRestart returns a new cobra command.
 func NewCmdRestart() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "restart STACK_SLUG",
@@ -51,8 +51,7 @@ func checkRestartArgs(cmd *cobra.Command, args []string) error {
 func runRestart(cmd *cobra.Command, args []string) {
 	raw, err := gr.Restart()
 	if err != nil {
-		log.Errorln("failed to restart stack")
-		log.Fatalln(err)
+		log.Fatalf("failed to restart stack: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

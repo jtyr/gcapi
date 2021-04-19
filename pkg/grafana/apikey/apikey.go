@@ -9,15 +9,15 @@ import (
 	"github.com/jtyr/gcapi/pkg/grafana"
 )
 
+// Allowed API key Role values expected by the API
 const (
-	// Allowed API key Role values expected by the API
 	RoleAdmin  = "Admin"
 	RoleEditor = "Editor"
 	RoleViewer = "Viewer"
 )
 
-// apiKey holds information about the Grafana API key.
-type apiKey struct {
+// APIKey holds information about the Grafana API key.
+type APIKey struct {
 	// Inherit Grafana
 	grafana.Grafana
 
@@ -27,11 +27,11 @@ type apiKey struct {
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
-var ClientConfig client.ClientConfig
+var ClientConfig client.Config
 
-// New returns new ApiKey.
-func New() *apiKey {
-	a := apiKey{}
+// New returns new APIKey.
+func New() *APIKey {
+	a := APIKey{}
 
 	// Set API endpoints
 	a.Endpoint = "instances/%s/api/auth/keys"
@@ -44,7 +44,7 @@ func New() *apiKey {
 }
 
 // SetRole makes sure the Role has correct value.
-func (a *apiKey) SetRole(value string) error {
+func (a *APIKey) SetRole(value string) error {
 	switch strings.ToLower(value) {
 	case strings.ToLower(RoleAdmin):
 		a.Role = RoleAdmin
@@ -60,7 +60,7 @@ func (a *apiKey) SetRole(value string) error {
 }
 
 // SetSecondsToLive makes sure the secondsToLive has correct value.
-func (a *apiKey) SetSecondsToLive(value uint64) error {
+func (a *APIKey) SetSecondsToLive(value uint64) error {
 	if value > 0 {
 		a.SecondsToLive = strconv.FormatUint(value, 10)
 	}

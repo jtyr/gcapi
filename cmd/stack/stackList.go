@@ -60,8 +60,7 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 func runList(cmd *cobra.Command, args []string) {
 	list, raw, err := st.List()
 	if err != nil {
-		log.Errorln("failed to list stacks")
-		log.Fatalln(err)
+		log.Fatalf("failed to list stacks: %s", err)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")
