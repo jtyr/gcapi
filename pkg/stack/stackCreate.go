@@ -10,17 +10,17 @@ import (
 
 // Create creates a new Stack and returns values of the newly created Stack and
 // the raw API response.
-func (s *stack) Create() (*ListItem, string, error) {
+func (s *Stack) Create() (*ListItem, string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = s.endpoint
+	client.Endpoint = s.Endpoint
 
 	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: s.name})
-	data = append(data, _client.Data{Key: "slug", Value: s.stackSlug})
+	data = append(data, _client.Data{Key: "name", Value: s.Name})
+	data = append(data, _client.Data{Key: "slug", Value: s.StackSlug})
 
 	body, statusCode, err := client.Post(data)
 	if err != nil {

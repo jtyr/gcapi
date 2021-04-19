@@ -8,13 +8,13 @@ import (
 )
 
 // Delete deletes the API key.
-func (a *apiKey) Delete() (string, error) {
+func (a *ApiKey) Delete() (string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(a.endpoint+"/%s", a.orgSlug, a.name)
+	client.Endpoint = fmt.Sprintf(a.Endpoint+"/%s", a.OrgSlug, a.Name)
 
 	body, statusCode, err := client.Delete()
 	if err != nil {

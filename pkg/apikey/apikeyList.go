@@ -20,16 +20,16 @@ type listResp struct {
 }
 
 // List returns the list of API keys and raw API response.
-func (a *apiKey) List() (*[]ListItem, string, error) {
+func (a *ApiKey) List() (*[]ListItem, string, error) {
 	client, err := client.New(ClientConfig)
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	if a.name == "" {
-		client.Endpoint = fmt.Sprintf(a.endpoint, a.orgSlug)
+	if a.Name == "" {
+		client.Endpoint = fmt.Sprintf(a.Endpoint, a.OrgSlug)
 	} else {
-		client.Endpoint = fmt.Sprintf(a.endpoint+"/%s", a.orgSlug, a.name)
+		client.Endpoint = fmt.Sprintf(a.Endpoint+"/%s", a.OrgSlug, a.Name)
 	}
 
 	body, statusCode, err := client.Get()
@@ -42,7 +42,7 @@ func (a *apiKey) List() (*[]ListItem, string, error) {
 	}
 
 	var jsonData listResp
-	if a.name != "" {
+	if a.Name != "" {
 		jsonData.Items = append(jsonData.Items, ListItem{})
 
 		if err := json.Unmarshal(body, &jsonData.Items[0]); err != nil {

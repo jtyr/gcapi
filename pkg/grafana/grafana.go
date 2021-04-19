@@ -2,7 +2,6 @@ package grafana
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/jtyr/gcapi/pkg/client"
@@ -16,79 +15,54 @@ const (
 )
 
 // grafana holds information about the Grafana.
-type grafana struct {
+type Grafana struct {
 	// URL parameters
-	stackSlug     string
-	name          string
-	role          string
-	secondsToLive string
+	StackSlug     string
+	Name          string
+	Role          string
+	SecondsToLive string
 
 	// Relative path to the api-keys endpoint
-	endpoint string
+	Endpoint string
 }
 
-// ClientConfig holds the configuration for the HTTP Client
+// ClientConfig holds the configuration for the HTTP Client.
 var ClientConfig client.ClientConfig
 
 // New returns new ApiKey.
-func New() *grafana {
-	g := grafana{}
+func New() *Grafana {
+	g := Grafana{}
 
-	g.endpoint = "instances/%s"
+	g.Endpoint = "instances/%s"
 
 	return &g
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (g *grafana) SetToken(token string) {
+func (g *Grafana) SetToken(token string) {
 	ClientConfig.Token = token
 }
 
 // SetStackSlug makes sure the Stack Slug is not an empty string.
-func (g *grafana) SetStackSlug(value string) error {
+func (g *Grafana) SetStackSlug(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf(`invalid Stack Slug value: "%s"`, value)
 	}
 
-	g.stackSlug = value
+	g.StackSlug = value
 
 	return nil
 }
 
 // SetName makes sure the Name is not an empty string.
-func (g *grafana) SetName(value string) error {
+func (g *Grafana) SetName(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf("invalid Name value: %s", value)
 	}
 
-	g.name = value
-
-	return nil
-}
-
-// SetRole makes sure the Role has correct value.
-func (g *grafana) SetRole(value string) error {
-	switch strings.ToLower(value) {
-	case strings.ToLower(RoleAdmin):
-		g.role = RoleAdmin
-	case strings.ToLower(RoleEditor):
-		g.role = RoleEditor
-	case strings.ToLower(RoleViewer):
-		g.role = RoleViewer
-	default:
-		return fmt.Errorf("invalid Role value: %s", value)
-	}
-
-	return nil
-}
-
-// SetSecondsToLive makes sure the secondsToLive has correct value.
-func (g *grafana) SetSecondsToLive(value uint64) error {
-	if value > 0 {
-		g.secondsToLive = strconv.FormatUint(value, 10)
-	}
+	g.Name = value
 
 	return nil
 }

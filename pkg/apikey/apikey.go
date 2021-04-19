@@ -15,69 +15,69 @@ const (
 	RoleViewer           = "Viewer"
 )
 
-// apiKey holds information about the API key.
-type apiKey struct {
+// ApiKey holds information about the API key.
+type ApiKey struct {
 	// URL parameters
-	orgSlug string
-	name    string
-	role    string
+	OrgSlug string
+	Name    string
+	Role    string
 
 	// Relative path to the api-keys endpoint
-	endpoint string
+	Endpoint string
 }
 
-// ClientConfig holds the configuration for the HTTP Client
+// ClientConfig holds the configuration for the HTTP Client.
 var ClientConfig client.ClientConfig
 
 // New returns new ApiKey.
-func New() *apiKey {
-	a := apiKey{}
+func New() *ApiKey {
+	a := ApiKey{}
 
-	a.endpoint = "orgs/%s/api-keys"
+	a.Endpoint = "orgs/%s/api-keys"
 
 	return &a
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (a *apiKey) SetToken(token string) {
+func (a *ApiKey) SetToken(token string) {
 	ClientConfig.Token = token
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.
-func (a *apiKey) SetOrgSlug(value string) error {
+func (a *ApiKey) SetOrgSlug(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf(`invalid Org Slug value: "%s"`, value)
 	}
 
-	a.orgSlug = value
+	a.OrgSlug = value
 
 	return nil
 }
 
 // SetName makes sure the Name is not an empty string.
-func (a *apiKey) SetName(value string) error {
+func (a *ApiKey) SetName(value string) error {
 	// TODO: Do further validation (only lowercase, no special chars?)
 	if len(strings.TrimSpace(value)) == 0 {
 		return fmt.Errorf("invalid Name value: %s", value)
 	}
 
-	a.name = value
+	a.Name = value
 
 	return nil
 }
 
 // SetRole makes sure the role has correct value.
-func (a *apiKey) SetRole(value string) error {
+func (a *ApiKey) SetRole(value string) error {
 	switch strings.ToLower(value) {
 	case strings.ToLower(RoleAdmin):
-		a.role = RoleAdmin
+		a.Role = RoleAdmin
 	case strings.ToLower(RoleEditor):
-		a.role = RoleEditor
+		a.Role = RoleEditor
 	case strings.ToLower(RoleMetricsPublisher):
-		a.role = RoleMetricsPublisher
+		a.Role = RoleMetricsPublisher
 	case strings.ToLower(RoleViewer):
-		a.role = RoleViewer
+		a.Role = RoleViewer
 	default:
 		return fmt.Errorf("invalid Role value: %s", value)
 	}

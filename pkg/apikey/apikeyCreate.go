@@ -15,17 +15,17 @@ type createResp struct {
 
 // Create creates a new API key and returns the value of newly created API key
 // and the raw API response.
-func (a *apiKey) Create() (string, string, error) {
+func (a *ApiKey) Create() (string, string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(a.endpoint, a.orgSlug)
+	client.Endpoint = fmt.Sprintf(a.Endpoint, a.OrgSlug)
 
 	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: a.name})
-	data = append(data, _client.Data{Key: "role", Value: a.role})
+	data = append(data, _client.Data{Key: "name", Value: a.Name})
+	data = append(data, _client.Data{Key: "role", Value: a.Role})
 
 	body, statusCode, err := client.Post(data)
 	if err != nil {

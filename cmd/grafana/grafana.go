@@ -4,6 +4,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
+	"github.com/jtyr/gcapi/cmd/grafana/apikey"
 	"github.com/jtyr/gcapi/pkg/grafana"
 )
 
@@ -19,7 +20,7 @@ func NewCmdGrafana() *cobra.Command {
 		Run:   grafanaRun,
 	}
 
-	cmd.AddCommand(NewCmdApiKey())
+	cmd.AddCommand(apikey.NewCmdApiKey())
 	cmd.AddCommand(NewCmdRestart())
 
 	return cmd

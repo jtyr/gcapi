@@ -8,13 +8,13 @@ import (
 )
 
 // Restart restarts a Stack and returns the raw API response.
-func (g *grafana) Restart() (string, error) {
+func (g *Grafana) Restart() (string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(g.endpoint+"/restart", g.stackSlug)
+	client.Endpoint = fmt.Sprintf(g.Endpoint+"/restart", g.StackSlug)
 
 	body, statusCode, err := client.Post(nil)
 	if err != nil {

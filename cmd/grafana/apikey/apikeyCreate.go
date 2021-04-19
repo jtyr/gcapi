@@ -1,4 +1,4 @@
-package grafana
+package apikey
 
 import (
 	"errors"
@@ -12,14 +12,14 @@ import (
 )
 
 // NewCmdStackApiKeyCreate returns a new cobra command.
-func NewCmdApiKeyCreate() *cobra.Command {
+func NewCmdCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "create STACK_SLUG NAME ROLE",
 		Aliases: []string{"add"},
 		Short:   "Create stack API key",
 		Long:    "Create Grafana API key in the Grafana Cloud and print it out.",
-		Args:    checkApiKeyCreateArgs,
-		Run:     runApiKeyCreate,
+		Args:    checkCreateArgs,
+		Run:     runCreate,
 	}
 
 	cmd.Flags().BoolP("raw", "r", false, "show raw API response")
@@ -28,9 +28,9 @@ func NewCmdApiKeyCreate() *cobra.Command {
 	return cmd
 }
 
-// checkStackApiKeyCreateArgs checks if the positional arguments have correct
+// checkCreateArgs checks if the positional arguments have correct
 // value. If no args are specified, it prints out the command usage.
-func checkApiKeyCreateArgs(cmd *cobra.Command, args []string) error {
+func checkCreateArgs(cmd *cobra.Command, args []string) error {
 	argsLen := len(args)
 
 	if argsLen == 0 {
@@ -40,15 +40,15 @@ func checkApiKeyCreateArgs(cmd *cobra.Command, args []string) error {
 		return errors.New("requires STACK_SLUG, NAME and ROLE arguments")
 	}
 
-	if err := gr.SetStackSlug(args[0]); err != nil {
+	if err := ak.SetStackSlug(args[0]); err != nil {
 		return err
 	}
 
-	if err := gr.SetName(args[1]); err != nil {
+	if err := ak.SetName(args[1]); err != nil {
 		return err
 	}
 
-	if err := gr.SetRole(args[2]); err != nil {
+	if err := ak.SetRole(args[2]); err != nil {
 		return err
 	}
 
@@ -58,13 +58,13 @@ func checkApiKeyCreateArgs(cmd *cobra.Command, args []string) error {
 	}
 
 	if stlFlag > 0 {
-		if err := gr.SetSecondsToLive(stlFlag); err != nil {
+		if err := ak.SetSecondsToLive(stlFlag); err != nil {
 			return err
 		}
 	}
 
 	if token, err := common.GetToken(cmd); err == nil {
-		gr.SetToken(token)
+		ak.SetToken(token)
 	} else {
 		return fmt.Errorf("failed to get authorization token: %s", err)
 	}
@@ -72,9 +72,9 @@ func checkApiKeyCreateArgs(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// runApiKeyCreate runs the command's action.
-func runApiKeyCreate(cmd *cobra.Command, args []string) {
-	key, raw, err := gr.ApiKeyCreate()
+// runCreate runs the command's action.
+func runCreate(cmd *cobra.Command, args []string) {
+	key, raw, err := ak.Create()
 	if err != nil {
 		log.Errorln("failed to create API key")
 		log.Fatalln(err)
