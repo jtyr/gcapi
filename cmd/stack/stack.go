@@ -22,6 +22,7 @@ func NewCmdStack() *cobra.Command {
 	cmd.AddCommand(NewCmdStackCreate())
 	cmd.AddCommand(NewCmdStackDelete())
 	cmd.AddCommand(NewCmdStackList())
+	cmd.AddCommand(NewCmdStackRestart())
 
 	return cmd
 }

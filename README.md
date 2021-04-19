@@ -66,10 +66,10 @@ gcapi-cli stack list myorgslug
 gcapi-cli stack list myorgslug myname
 # Delete an API key
 gcapi-cli stack delete mystackslug
-
-### TODO
 # Restart a Stack
 gcapi-cli stack restart mystackslug
+
+### TODO
 # Create Stack API key
 gcapi-cli stack apikey create mystackslug myname Viewer
 # Create Stack API key with limitted life

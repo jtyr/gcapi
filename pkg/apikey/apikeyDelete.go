@@ -19,7 +19,7 @@ func (a *apiKey) Delete() (string, error) {
 	body, statusCode, err := client.Delete()
 	if err != nil {
 		if statusCode == 404 {
-			return "", errors.New("API key with this name doesn't exist")
+			return "", errors.New("API key not found")
 		} else {
 			return "", err
 		}

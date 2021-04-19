@@ -7,19 +7,19 @@ import (
 	_client "github.com/jtyr/gcapi/pkg/client"
 )
 
-// Delete deletes the Stack.
-func (s *stack) Delete() (string, error) {
+// Restart restarts a Stack and returns the raw API response.
+func (s *stack) Restart() (string, error) {
 	client, err := _client.New(ClientConfig)
 	if err != nil {
 		return "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(s.endpoint+"/%s", s.stackSlug)
+	client.Endpoint = fmt.Sprintf(s.endpoint + "/%s/restart", s.stackSlug)
 
-	body, statusCode, err := client.Delete()
+	body, statusCode, err := client.Post(nil)
 	if err != nil {
 		if statusCode == 404 {
-			return "", errors.New("API key not found")
+			return "", errors.New("Stack Slug not found")
 		} else {
 			return "", err
 		}
