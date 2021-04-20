@@ -8,6 +8,12 @@ import (
 	_client "github.com/jtyr/gcapi/pkg/client"
 )
 
+// createDocument describes the request JSON structure
+type createDocument struct {
+	Name      string `json:"name"`
+	StackSlug string `json:"slug"`
+}
+
 // Create creates a new Stack and returns values of the newly created Stack and
 // the raw API response.
 func (s *Stack) Create() (*ListItem, string, error) {
@@ -18,9 +24,10 @@ func (s *Stack) Create() (*ListItem, string, error) {
 
 	client.Endpoint = s.Endpoint
 
-	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: s.Name})
-	data = append(data, _client.Data{Key: "slug", Value: s.StackSlug})
+	data := createDocument{
+		Name:      s.Name,
+		StackSlug: s.StackSlug,
+	}
 
 	body, statusCode, err := client.Post(data)
 	if err != nil {

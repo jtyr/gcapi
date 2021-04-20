@@ -8,6 +8,12 @@ import (
 	_client "github.com/jtyr/gcapi/pkg/client"
 )
 
+// createDocument describes the request JSON structure
+type createDocument struct {
+	Name string `json:"name"`
+	Role string `json:"role"`
+}
+
 // createResp describes the structure of the JSON document returned by the API.
 type createResp struct {
 	Token string `json:"token"`
@@ -23,9 +29,10 @@ func (a *APIKey) Create() (string, string, error) {
 
 	client.Endpoint = fmt.Sprintf(a.Endpoint, a.OrgSlug)
 
-	var data []_client.Data
-	data = append(data, _client.Data{Key: "name", Value: a.Name})
-	data = append(data, _client.Data{Key: "role", Value: a.Role})
+	data := createDocument{
+		Name: a.Name,
+		Role: a.Role,
+	}
 
 	body, statusCode, err := client.Post(data)
 	if err != nil {

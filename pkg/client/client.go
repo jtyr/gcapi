@@ -1,6 +1,8 @@
 package client
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -99,18 +101,21 @@ func (c *GrafanaCloudClient) Get() ([]byte, int, error) {
 }
 
 // Post sends POST request.
-func (c *GrafanaCloudClient) Post(data []Data) ([]byte, int, error) {
+func (c *GrafanaCloudClient) Post(data interface{}) ([]byte, int, error) {
 	url := fmt.Sprintf("%s/%s", c.baseURL, c.Endpoint)
 
-	req, err := http.NewRequest("POST", url, c.getDataReader(data))
+	jsonDoc, err := json.Marshal(data)
+	if err != nil {
+		return nil, 0, fmt.Errorf("failed to convert struct to JSON: %s", err)
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonDoc))
 	if err != nil {
 		return nil, 0, err
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
-	// FIXME: This doesn't work for numbers, bools, arrays and dicts.
-	// FIXME: We should use JSON! data = interface -> JSON
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := c.Client.Do(req)
 	if err != nil {

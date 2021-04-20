@@ -2,7 +2,6 @@ package apikey
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/jtyr/gcapi/pkg/client"
@@ -23,7 +22,7 @@ type APIKey struct {
 
 	// URL parameters
 	Role          string
-	SecondsToLive string
+	SecondsToLive uint64
 }
 
 // ClientConfig holds the configuration for the HTTP Client.
@@ -61,9 +60,7 @@ func (a *APIKey) SetRole(value string) error {
 
 // SetSecondsToLive makes sure the secondsToLive has correct value.
 func (a *APIKey) SetSecondsToLive(value uint64) error {
-	if value > 0 {
-		a.SecondsToLive = strconv.FormatUint(value, 10)
-	}
+	a.SecondsToLive = value
 
 	return nil
 }
