@@ -1,3 +1,7 @@
+[![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
+
+
 Grafana Cloud API
 =================
 
