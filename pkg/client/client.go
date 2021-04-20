@@ -20,7 +20,7 @@ type Config struct {
 	Token string
 
 	// Transport allows to override the default HTTP transport of the client
-	Transport http.Transport
+	Transport *http.Transport
 }
 
 // GrafanaCloudClient holds the HTTP client configuration.
@@ -46,11 +46,11 @@ type Data struct {
 // New creates new client.
 func New(cfg Config) (*GrafanaCloudClient, error) {
 	c := GrafanaCloudClient{}
-
 	c.token = cfg.Token
+	c.Client = &http.Client{}
 
-	c.Client = &http.Client{
-		Transport: &cfg.Transport,
+	if cfg.Transport != nil {
+		c.Client.Transport = cfg.Transport
 	}
 
 	envURL := os.Getenv("GRAFANA_CLOUD_API_URL")

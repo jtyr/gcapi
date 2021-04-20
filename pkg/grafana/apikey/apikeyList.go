@@ -53,7 +53,7 @@ func (a *APIKey) List() (*ListResp, string, error) {
 
 	var jsonData ListResp
 	if err := json.Unmarshal(body, &jsonData); err != nil {
-		return nil, "", fmt.Errorf("cannot parse API response as JSON", err)
+		return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
 	}
 
 	return &jsonData, string(body), nil

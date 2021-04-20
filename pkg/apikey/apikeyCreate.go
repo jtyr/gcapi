@@ -45,7 +45,7 @@ func (a *APIKey) Create() (string, string, error) {
 
 	var jsonData createResp
 	if err := json.Unmarshal(body, &jsonData); err != nil {
-		return "", "", fmt.Errorf("cannot parse API response as JSON", err)
+		return "", "", fmt.Errorf("cannot parse API response as JSON: %s", err)
 	}
 
 	return jsonData.Token, string(body), nil

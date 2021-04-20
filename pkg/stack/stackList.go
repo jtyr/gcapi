@@ -57,11 +57,11 @@ func (s *Stack) List() (*[]ListItem, string, error) {
 		jsonData.Items = append(jsonData.Items, ListItem{})
 
 		if err := json.Unmarshal(body, &jsonData.Items[0]); err != nil {
-			return nil, "", fmt.Errorf("cannot parse API response as JSON", err)
+			return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
 		}
 	} else {
 		if err := json.Unmarshal(body, &jsonData); err != nil {
-			return nil, "", fmt.Errorf("cannot parse API response as JSON", err)
+			return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
 		}
 	}
 

@@ -40,7 +40,7 @@ func (s *Stack) Create() (*ListItem, string, error) {
 
 	var jsonData ListItem
 	if err := json.Unmarshal(body, &jsonData); err != nil {
-		return nil, "", fmt.Errorf("cannot parse API response as JSON", err)
+		return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
 	}
 
 	return &jsonData, string(body), nil
