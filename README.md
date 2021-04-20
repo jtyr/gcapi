@@ -1,6 +1,8 @@
-[![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
+[![Release](https://img.shields.io/github/release/jtyr/gcapi.svg)](https://github.com/jtyr/gcapi/releases)
 [![Actions status](https://github.com/jtyr/gcapi/actions/workflows/go.yaml/badge.svg)](https://github.com/jtyr/gcapi/actions/workflows/go.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
+[![Docker build](https://img.shields.io/docker/cloud/build/jtyr/gcapi?label=Docker%20build&logo=docker)](https://hub.docker.com/repository/docker/jtyr/gcapi)
+[![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
 
 
 Grafana Cloud API
