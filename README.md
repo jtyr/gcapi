@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
+[![Actions status](https://github.com/jtyr/gcapi/actions/workflows/go.yaml/badge.svg)](https://github.com/jtyr/gcapi/actions/workflows/go.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
 
 
