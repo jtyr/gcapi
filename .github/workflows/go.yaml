@@ -14,6 +14,7 @@ on:
 
 jobs:
   validate:
+    name: Validate source code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,6 +36,7 @@ jobs:
         run: go build -v ./...
 
   build:
+    name: Build artifacts
     if: startsWith(github.ref, 'refs/tags/v')
     needs: validate
     runs-on: ubuntu-latest
@@ -82,9 +84,10 @@ jobs:
         run: |
           echo ::set-output name=tag_name::${GITHUB_REF#refs/tags/v}
 
-      - name: Create output directory
+      - name: Get file name
+        id: file
         run: |
-          mkdir -p /tmp/files
+          echo ::set-output name=file_name::gcapi-cli-${{ steps.tag.outputs.tag_name }}-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.arm }}${{ matrix.extension }}
 
       - name: Build
         run: >
@@ -94,12 +97,36 @@ jobs:
           CGO_ENABLED=0
           go build
           -ldflags='-s -w -X github.com/jtyr/gcapi/pkg/version.Version=${{ steps.tag.outputs.tag_name }}'
-          -o /tmp/files/gcapi-cli-${{ steps.tag.outputs.tag_name }}-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.arm }}${{ matrix.extension }}
+          -o /tmp/${{ steps.file.outputs.file_name }}
           ./main.go
 
-      - name: Create checksums file
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: gcapi-cli-${{ steps.tag.outputs.tag_name }}
+          path: /tmp/${{ steps.file.outputs.file_name }}
+          retention-days: 1
+
+  release:
+    name: Release all built artifacts
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get tag name
+        id: tag
         run: |
-          sha256sum /tmp/files/* | sort -k2 > "gcapi-cli-${{ steps.tag.outputs.tag_name }}-checksums-sha256.txt"
+          echo ::set-output name=tag_name::${GITHUB_REF#refs/tags/v}
+
+      - name: Download all workflow artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: gcapi-cli-${{ steps.tag.outputs.tag_name }}
+          path: /tmp/files
+
+      - name: Create checksum file
+        run: |
+          cd /tmp/files
+          sha256sum * | sort -k2 > gcapi-cli-${{ steps.tag.outputs.tag_name }}-checksums-sha256.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1
