@@ -1,7 +1,7 @@
 [![Release](https://img.shields.io/github/release/jtyr/gcapi.svg)](https://github.com/jtyr/gcapi/releases)
 [![Actions status](https://github.com/jtyr/gcapi/actions/workflows/go.yaml/badge.svg)](https://github.com/jtyr/gcapi/actions/workflows/go.yaml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
-[![Docker build](https://img.shields.io/docker/cloud/build/jtyr/gcapi?label=Docker%20build&logo=docker)](https://hub.docker.com/repository/docker/jtyr/gcapi)
+[![Docker build](https://img.shields.io/docker/cloud/build/jtyr/gcapi-cli?label=Docker%20build&logo=docker)](https://hub.docker.com/repository/docker/jtyr/gcapi-cli)
 [![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
 
 
@@ -24,6 +24,34 @@ go build -o gcapi-cli ./main.go
 
 Usage
 -----
+
+### Docker
+
+Run Docker container to run single command:
+
+```shell
+# List all API keys
+docker run \
+  -it \
+  --rm \
+  -e GRAFANA_CLOUD_API_TOKEN=$GRAFANA_CLOUD_API_TOKEN \
+  jtyr/gcapi-cli apikey list myorgslug
+```
+
+Run shell in the Docker container to run multiple commands in the same
+container:
+
+```shell
+docker run \
+  -it \
+  --rm \
+  --entrypoint /bin/sh
+  -e GRAFANA_CLOUD_API_TOKEN=$GRAFANA_CLOUD_API_TOKEN \
+  jtyr/gcapi-cli
+```
+
+Then you can run any of the commands bellow.
+
 
 ### Command line tool
 
