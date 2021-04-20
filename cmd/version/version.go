@@ -14,7 +14,7 @@ func NewCmdVersion() *cobra.Command {
 		Use:   "version",
 		Short: "Show version",
 		Long:  "Show version.",
-		Run:   versionRun,
+		Run:   run,
 	}
 
 	return cmd
@@ -30,7 +30,7 @@ func GetVersion() string {
 	return version.Version
 }
 
-// versionRun runs the command's action.
-func versionRun(cmd *cobra.Command, args []string) {
+// run runs the command's action.
+func run(cmd *cobra.Command, args []string) {
 	PrintVersion()
 }

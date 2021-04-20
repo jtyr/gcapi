@@ -8,7 +8,6 @@ import (
 	"net/http"
 	_url "net/url"
 	"os"
-	"strings"
 )
 
 // Config allows to override default HTTP client configuration.
@@ -162,20 +161,4 @@ func (c *GrafanaCloudClient) Delete() ([]byte, int, error) {
 	}
 
 	return body, resp.StatusCode, nil
-}
-
-// getDataReader returns Data as Reader ready to used in the http.NewRequest.
-func (c GrafanaCloudClient) getDataReader(data []Data) *strings.Reader {
-	dataString := ""
-	dataLen := len(data)
-
-	for i, kv := range data {
-		dataString += kv.Key + "=" + _url.QueryEscape(kv.Value)
-
-		if i < dataLen-1 {
-			dataString += "&"
-		}
-	}
-
-	return strings.NewReader(dataString)
 }
