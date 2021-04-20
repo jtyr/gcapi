@@ -57,7 +57,7 @@ Then you can run any of the commands bellow.
 
 ```
 $ gcapi-cli --help
-gcapi-cli is a tool that allows an easy access to the Grafana Cloud API.
+gcapi-cli is a tool that allows an easy access to the Grafana Cloud API and Grafana API.
 
 Usage:
   gcapi-cli [flags]
@@ -71,8 +71,8 @@ Available Commands:
   version     Show version
 
 Flags:
-  -t, --cloud-api-token string        Grafana Cloud API token
-  -f, --cloud-api-token-file string   path to a file containing the Grafana Cloud API token
+  -t, --cloud-api-token string        token used to authenticate to the Grafana Cloud API
+  -f, --cloud-api-token-file string   path to a file containing the token used to authenticate to the Grafana Cloud API
   -h, --help                          help for gcapi-cli
       --timestamps                    enable Log timestamps
   -v, --version                       version for gcapi-cli
