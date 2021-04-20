@@ -15,8 +15,8 @@ var gr = grafana.New()
 func NewCmdGrafana() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "grafana",
-		Short: "Manage Grafana",
-		Long:  "Manage Grafana in Grafana Cloud.",
+		Short: "Manage Grafana instance",
+		Long:  "Manage Grafana instance.",
 		Run:   grafanaRun,
 	}
 

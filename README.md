@@ -29,10 +29,10 @@ Usage:
   gcapi-cli [command]
 
 Available Commands:
-  apikey      Manage API keys
-  grafana     Manage Grafana
+  apikey      Manage Grafana Cloud API keys
+  grafana     Manage Grafana instance
   help        Help about any command
-  stack       Manage Stacks
+  stack       Manage Grafana Cloud stacks
   version     Show version
 
 Flags:
@@ -119,7 +119,7 @@ gcapi-cli grafana apikey delete myname
 
 ## Grafana Datasource
 # Create a Grafana Datasource
-gcapi-cli grafana datasource create mystackslug /path/to/my/datasource.json
+gcapi-cli grafana datasource create myorgslug mystackslug /path/to/my/datasource.json
 # List Grafana Datasources
 gcapi-cli grafana datasource list mystackslug
 # Delete a Grafana Datasource

@@ -14,7 +14,7 @@ var st = stack.New()
 func NewCmdStack() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "stack",
-		Short: "Manage stacks",
+		Short: "Manage Grafana Cloud stacks",
 		Long:  "Manage Grafana Cloud stacks.",
 		Run:   run,
 	}

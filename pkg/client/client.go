@@ -108,6 +108,8 @@ func (c *GrafanaCloudClient) Post(data []Data) ([]byte, int, error) {
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
+	// FIXME: This doesn't work for numbers, bools, arrays and dicts.
+	// FIXME: We should use JSON! data = interface -> JSON
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	resp, err := c.Client.Do(req)

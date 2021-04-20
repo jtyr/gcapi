@@ -14,7 +14,7 @@ var ak = apikey.New()
 func NewCmdAPIKey() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apikey",
-		Short: "Manage API keys",
+		Short: "Manage Grafana Cloud API keys",
 		Long:  "Manage Grafana Cloud API keys.",
 		Run:   run,
 	}

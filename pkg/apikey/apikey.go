@@ -19,8 +19,8 @@ const (
 type APIKey struct {
 	// URL parameters
 	OrgSlug string
-	Name string
-	Role string
+	Name    string
+	Role    string
 
 	// Relative path to the api-keys endpoint
 	Endpoint string

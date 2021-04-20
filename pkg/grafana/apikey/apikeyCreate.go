@@ -16,12 +16,31 @@ type createResp struct {
 // Create creates a new Grafana API key and returns the value of the newly
 // created API key and the raw API response.
 func (a *APIKey) Create() (string, string, error) {
-	client, err := _client.New(a.ClientConfig)
+	// Use Grafana API token
+	grafanaClientConfig := a.ClientConfig
+	grafanaClientConfig.Token = a.GrafanaToken
+
+	if a.BaseURL == "" {
+		// Get Grafana API URL
+		var err error
+		grafanaClientConfig.BaseURL, err = a.GetGrafanaAPIURL()
+		if err != nil {
+			return "", "", fmt.Errorf("failed to get Grafana API URL: %s", err)
+		}
+	} else {
+		grafanaClientConfig.BaseURL = a.BaseURL
+	}
+
+	client, err := _client.New(grafanaClientConfig)
 	if err != nil {
 		return "", "", fmt.Errorf("failed to get client: %s", err)
 	}
 
-	client.Endpoint = fmt.Sprintf(a.Endpoint, a.StackSlug)
+	if a.StackSlug == "" {
+		client.Endpoint = fmt.Sprintf(a.GrafanaEndpoint)
+	} else {
+		client.Endpoint = fmt.Sprintf(a.Endpoint, a.StackSlug)
+	}
 
 	var data []_client.Data
 	data = append(data, _client.Data{Key: "name", Value: a.Name})

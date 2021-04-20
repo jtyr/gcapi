@@ -35,7 +35,7 @@ func NewCmdList() *cobra.Command {
 // checkListArgs checks if the positional arguments have correct
 // value. If no args are specified, it prints out the command usage.
 func checkListArgs(cmd *cobra.Command, args []string) error {
-	gauFlag, err := common.GetGrafanaApiURL(cmd)
+	gauFlag, err := common.GetGrafanaAPIURL(cmd)
 	if err != nil {
 		log.Fatalf("failed to get Grafana API URL: %s", err)
 	}
