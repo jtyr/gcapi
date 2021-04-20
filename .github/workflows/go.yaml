@@ -93,9 +93,9 @@ jobs:
           GOARM="${{ matrix.arm }}"
           CGO_ENABLED=0
           go build
-            -ldflags='-s -w -X github.com/jtyr/gcapi/pkg/version.Version=${{ steps.tag.outputs.tag_name }}'
-            -o /tmp/files/gcapi-cli-${{ steps.tag.outputs.tag_name }}-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.arm }}${{ matrix.extension }}
-            ./main.go
+          -ldflags='-s -w -X github.com/jtyr/gcapi/pkg/version.Version=${{ steps.tag.outputs.tag_name }}'
+          -o /tmp/files/gcapi-cli-${{ steps.tag.outputs.tag_name }}-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.arm }}${{ matrix.extension }}
+          ./main.go
 
       - name: Create checksums file
         run: |
