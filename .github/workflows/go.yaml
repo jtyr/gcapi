@@ -124,8 +124,8 @@ jobs:
           path: /tmp/files
 
       - name: Create checksum file
+        working-directory: /tmp/files
         run: |
-          cd /tmp/files
           sha256sum * | sort -k2 > gcapi-cli-${{ steps.tag.outputs.tag_name }}-checksums-sha256.txt
 
       - name: Release
