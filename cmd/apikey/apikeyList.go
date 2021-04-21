@@ -62,10 +62,10 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 
 // runList runs the command's action.
 func runList(cmd *cobra.Command, args []string) {
-	list, raw, err := ak.List()
+	list, raw, ec, err := ak.List()
 	if err != nil {
-		log.Errorln("failed to list API keys")
-		log.Fatalln(err)
+		log.Errorf("failed to list API keys: %s", err)
+		log.Exit(ec)
 	}
 
 	oraFlag, err := cmd.Flags().GetBool("only-role-admin")

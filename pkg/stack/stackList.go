@@ -5,7 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jtyr/gcapi/pkg/client"
+	_client "github.com/jtyr/gcapi/pkg/client"
+	"github.com/jtyr/gcapi/pkg/consts"
 )
 
 // ListItem described properties of individual List item returned by the API.
@@ -30,10 +31,10 @@ type listResp struct {
 }
 
 // List returns the list of API keys and raw API response.
-func (s *Stack) List() (*[]ListItem, string, error) {
-	client, err := client.New(s.ClientConfig)
+func (s *Stack) List() (*[]ListItem, string, int, error) {
+	client, err := _client.New(s.ClientConfig)
 	if err != nil {
-		return nil, "", fmt.Errorf("failed to get client: %s", err)
+		return nil, "", consts.ExitError, fmt.Errorf("failed to get client: %s", err)
 	}
 
 	if s.StackSlug == "" {
@@ -44,11 +45,13 @@ func (s *Stack) List() (*[]ListItem, string, error) {
 
 	body, statusCode, err := client.Get()
 	if err != nil {
-		if statusCode == 404 {
-			return nil, "", errors.New("Stack Slug not found")
+		if s.StackSlug == "" && statusCode == 404 {
+			return nil, "", consts.ExitError, errors.New("Org Slug not found")
+		} else if s.StackSlug != "" && statusCode == 404 {
+			return nil, "", consts.ExitNotFound, errors.New("Stack not found")
 		}
 
-		return nil, "", err
+		return nil, "", consts.ExitError, err
 	}
 
 	var jsonData listResp
@@ -57,13 +60,13 @@ func (s *Stack) List() (*[]ListItem, string, error) {
 		jsonData.Items = append(jsonData.Items, ListItem{})
 
 		if err := json.Unmarshal(body, &jsonData.Items[0]); err != nil {
-			return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
+			return nil, "", consts.ExitError, fmt.Errorf("cannot parse API response as JSON: %s", err)
 		}
 	} else {
 		if err := json.Unmarshal(body, &jsonData); err != nil {
-			return nil, "", fmt.Errorf("cannot parse API response as JSON: %s", err)
+			return nil, "", consts.ExitError, fmt.Errorf("cannot parse API response as JSON: %s", err)
 		}
 	}
 
-	return &jsonData.Items, string(body), nil
+	return &jsonData.Items, string(body), consts.ExitOk, nil
 }

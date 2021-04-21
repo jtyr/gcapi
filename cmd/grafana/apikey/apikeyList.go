@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/jtyr/gcapi/cmd/common"
+	"github.com/jtyr/gcapi/pkg/consts"
 	"github.com/jtyr/gcapi/pkg/grafana/apikey"
 )
 
@@ -144,7 +145,8 @@ func runList(cmd *cobra.Command, args []string) {
 	}
 
 	if !printed && ak.Name != "" {
-		log.Fatal("API key not found")
+		log.Error("failed to list API keys: API key not found")
+		log.Exit(consts.ExitNotFound)
 	}
 }
 

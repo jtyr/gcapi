@@ -115,7 +115,7 @@ func (g *Grafana) GetGrafanaAPIURL() (string, error) {
 
 	stack.SetToken(g.ClientConfig.Token)
 
-	list, _, err := stack.List()
+	list, _, _, err := stack.List()
 	if err != nil {
 		return "", fmt.Errorf("failed to get stack details: %s", err)
 	}

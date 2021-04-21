@@ -58,9 +58,10 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 
 // runList runs the command's action.
 func runList(cmd *cobra.Command, args []string) {
-	list, raw, err := st.List()
+	list, raw, ec, err := st.List()
 	if err != nil {
-		log.Fatalf("failed to list stacks: %s", err)
+		log.Errorf("failed to list stacks: %s", err)
+		log.Exit(ec)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

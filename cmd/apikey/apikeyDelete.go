@@ -57,9 +57,10 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 
 // runDelete runs the command's action.
 func runDelete(cmd *cobra.Command, args []string) {
-	raw, err := ak.Delete()
+	raw, ec, err := ak.Delete()
 	if err != nil {
-		log.Fatalf("failed to delete API keys: %s", err)
+		log.Errorf("failed to delete API keys: %s", err)
+		log.Exit(ec)
 	}
 
 	rawFlag, err := cmd.Flags().GetBool("raw")

@@ -28,7 +28,7 @@ var flags = rootFlags{}
 var rootCmd = &cobra.Command{
 	Use:           "gcapi-cli",
 	Short:         "Tool to access Grafana Cloud API",
-	Long:          "gcapi-cli is a tool that allows an easy access to the Grafana Cloud API and Grafana API.",
+	Long:          "gcapi-cli is a tool that allows an easy access to the Grafana Cloud API (and Grafana API).",
 	SilenceErrors: true,
 	SilenceUsage:  true,
 	Version:       version.GetVersion(),
