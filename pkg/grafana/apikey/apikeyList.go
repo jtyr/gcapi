@@ -2,7 +2,6 @@ package apikey
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -45,7 +44,7 @@ func (a *APIKey) List() (*ListResp, string, error) {
 	body, statusCode, err := client.Get()
 	if err != nil {
 		if statusCode == 404 {
-			return nil, "", errors.New("Grafana instance not found")
+			return nil, "", fmt.Errorf("Grafana instance not found: %s", err)
 		}
 
 		return nil, "", err

@@ -2,7 +2,6 @@ package stack
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -46,9 +45,9 @@ func (s *Stack) List() (*[]ListItem, string, int, error) {
 	body, statusCode, err := client.Get()
 	if err != nil {
 		if s.StackSlug == "" && statusCode == 404 {
-			return nil, "", consts.ExitError, errors.New("Org Slug not found")
+			return nil, "", consts.ExitError, fmt.Errorf("Org Slug not found: %s", err)
 		} else if s.StackSlug != "" && statusCode == 404 {
-			return nil, "", consts.ExitNotFound, errors.New("Stack not found")
+			return nil, "", consts.ExitNotFound, fmt.Errorf("Stack not found: %s", err)
 		}
 
 		return nil, "", consts.ExitError, err

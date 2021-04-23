@@ -2,7 +2,6 @@ package apikey
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -37,7 +36,7 @@ func (a *APIKey) Create() (string, string, error) {
 	body, statusCode, err := client.Post(data)
 	if err != nil {
 		if statusCode == 409 {
-			return "", "", errors.New("API key with this name already exists")
+			return "", "", fmt.Errorf("API key with this name already exists: %s", err)
 		}
 
 		return "", "", err

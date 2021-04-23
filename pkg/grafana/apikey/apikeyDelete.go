@@ -45,7 +45,7 @@ func (a *APIKey) Delete() (string, int, error) {
 	}
 
 	if keyID == -1 {
-		return "", consts.ExitNotFound, errors.New("API key not found")
+		return "", consts.ExitNotFound, errors.New("API key not found in the list of API keys")
 	}
 
 	client.Endpoint = fmt.Sprintf(a.GrafanaEndpoint+"/%d", keyID)
@@ -53,7 +53,7 @@ func (a *APIKey) Delete() (string, int, error) {
 	body, statusCode, err := client.Delete()
 	if err != nil {
 		if statusCode == 404 {
-			return "", consts.ExitNotFound, errors.New("API key not found")
+			return "", consts.ExitNotFound, fmt.Errorf("API key not found: %s", err)
 		}
 
 		return "", consts.ExitError, err

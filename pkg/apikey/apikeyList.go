@@ -2,7 +2,6 @@ package apikey
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -36,9 +35,9 @@ func (a *APIKey) List() (*[]ListItem, string, int, error) {
 	body, statusCode, err := client.Get()
 	if err != nil {
 		if a.Name == "" && statusCode == 404 {
-			return nil, "", consts.ExitError, errors.New("Org Slug not found")
+			return nil, "", consts.ExitError, fmt.Errorf("Org Slug not found: %s", err)
 		} else if a.Name != "" && statusCode == 404 {
-			return nil, "", consts.ExitNotFound, errors.New("key not found")
+			return nil, "", consts.ExitNotFound, fmt.Errorf("key not found: %s", err)
 		}
 
 		return nil, "", consts.ExitError, err

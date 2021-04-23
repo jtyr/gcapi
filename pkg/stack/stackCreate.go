@@ -2,7 +2,6 @@ package stack
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -32,7 +31,7 @@ func (s *Stack) Create() (*ListItem, string, error) {
 	body, statusCode, err := client.Post(data)
 	if err != nil {
 		if statusCode == 409 {
-			return nil, "", errors.New("stack with this name already exists")
+			return nil, "", fmt.Errorf("stack with this name already exists: %s", err)
 		}
 
 		return nil, "", err

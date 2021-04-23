@@ -1,7 +1,6 @@
 package apikey
 
 import (
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -20,7 +19,7 @@ func (a *APIKey) Delete() (string, int, error) {
 	body, statusCode, err := client.Delete()
 	if err != nil {
 		if statusCode == 404 {
-			return "", consts.ExitNotFound, errors.New("API key not found")
+			return "", consts.ExitNotFound, fmt.Errorf("API key not found: %s", err)
 		}
 
 		return "", consts.ExitError, err

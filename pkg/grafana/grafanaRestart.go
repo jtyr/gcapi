@@ -1,7 +1,6 @@
 package grafana
 
 import (
-	"errors"
 	"fmt"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
@@ -19,7 +18,7 @@ func (g *Grafana) Restart() (string, error) {
 	body, statusCode, err := client.Post(nil)
 	if err != nil {
 		if statusCode == 404 {
-			return "", errors.New("Stack Slug not found")
+			return "", fmt.Errorf("Stack Slug not found: %s", err)
 		}
 
 		return "", err
