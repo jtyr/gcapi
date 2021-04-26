@@ -42,11 +42,14 @@ type Data struct {
 	Value string
 }
 
+// Client allows to mock the http.client from tests.
+var Client = &http.Client{}
+
 // New creates new client.
 func New(cfg Config) (*GrafanaCloudClient, error) {
 	c := GrafanaCloudClient{}
 	c.token = cfg.Token
-	c.Client = &http.Client{}
+	c.Client = Client
 
 	if cfg.Transport != nil {
 		c.Client.Transport = cfg.Transport
