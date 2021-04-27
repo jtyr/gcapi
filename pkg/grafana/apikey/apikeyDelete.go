@@ -3,10 +3,13 @@ package apikey
 import (
 	"errors"
 	"fmt"
+	"net/http"
 
 	_client "github.com/jtyr/gcapi/pkg/client"
 	"github.com/jtyr/gcapi/pkg/consts"
 )
+
+var deleteClient *http.Client
 
 // Delete deletes Grafana API keys and returns the raw API response.
 func (a *APIKey) Delete() (string, int, error) {
@@ -46,6 +49,12 @@ func (a *APIKey) Delete() (string, int, error) {
 
 	if keyID == -1 {
 		return "", consts.ExitNotFound, errors.New("API key not found in the list of API keys")
+	}
+
+	// This is here only to be able to mock the Delete() response
+	if deleteClient.Transport != nil {
+		_client.Client = deleteClient
+		client, _ = _client.New(grafanaClientConfig)
 	}
 
 	client.Endpoint = fmt.Sprintf(a.GrafanaEndpoint+"/%d", keyID)

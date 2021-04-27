@@ -1,11 +1,12 @@
 package grafana
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/jtyr/gcapi/pkg/client"
-	"github.com/jtyr/gcapi/pkg/stack"
+	_stack "github.com/jtyr/gcapi/pkg/stack"
 )
 
 // Grafana holds information about the Grafana.
@@ -43,14 +44,26 @@ func New() *Grafana {
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (g *Grafana) SetToken(token string) {
-	g.ClientConfig.Token = token
+func (g *Grafana) SetToken(value string) error {
+	if len(strings.TrimSpace(value)) == 0 {
+		return errors.New("token has zero length")
+	}
+
+	g.ClientConfig.Token = value
+
+	return nil
 }
 
 // SetGrafanaToken sets the authorization token used to communicate with the
 // Grafana API.
-func (g *Grafana) SetGrafanaToken(token string) {
-	g.GrafanaToken = token
+func (g *Grafana) SetGrafanaToken(value string) error {
+	if len(strings.TrimSpace(value)) == 0 {
+		return errors.New("token has zero length")
+	}
+
+	g.GrafanaToken = value
+
+	return nil
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.
@@ -103,7 +116,7 @@ func (g *Grafana) SetBaseURL(value string) error {
 
 // GetGrafanaAPIURL returns the URL used for Grafana
 func (g *Grafana) GetGrafanaAPIURL() (string, error) {
-	stack := stack.New()
+	stack := _stack.New()
 
 	if err := stack.SetOrgSlug(g.OrgSlug); err != nil {
 		return "", err

@@ -84,32 +84,17 @@ func (c *GrafanaCloudClient) Get() ([]byte, int, error) {
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
 
-	resp, err := c.Client.Do(req)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil, resp.StatusCode, fmt.Errorf("bad status code received: %s", resp.Status)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, resp.StatusCode, fmt.Errorf("error reading response: %s", err)
-	}
-
-	return body, resp.StatusCode, nil
+	return c.do(req)
 }
 
 // Post sends POST request.
 func (c *GrafanaCloudClient) Post(data interface{}) ([]byte, int, error) {
-	url := fmt.Sprintf("%s/%s", c.baseURL, c.Endpoint)
-
 	jsonDoc, err := json.Marshal(data)
 	if err != nil {
 		return nil, 0, fmt.Errorf("failed to convert struct to JSON: %s", err)
 	}
+
+	url := fmt.Sprintf("%s/%s", c.baseURL, c.Endpoint)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonDoc))
 	if err != nil {
@@ -119,22 +104,7 @@ func (c *GrafanaCloudClient) Post(data interface{}) ([]byte, int, error) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := c.Client.Do(req)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil, resp.StatusCode, fmt.Errorf("bad status code received: %s", resp.Status)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, resp.StatusCode, fmt.Errorf("error reading response: %s", err)
-	}
-
-	return body, resp.StatusCode, nil
+	return c.do(req)
 }
 
 // Delete sends DELETE request.
@@ -148,6 +118,10 @@ func (c *GrafanaCloudClient) Delete() ([]byte, int, error) {
 
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", c.token))
 
+	return c.do(req)
+}
+
+func (c *GrafanaCloudClient) do(req *http.Request) ([]byte, int, error) {
 	resp, err := c.Client.Do(req)
 	if err != nil {
 		return nil, 0, err

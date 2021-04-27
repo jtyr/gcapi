@@ -12,65 +12,72 @@ import (
 
 func TestClient(t *testing.T) {
 	tests := []struct {
-		statusCode           int
 		body                 string
-		method               string
-		env                  map[string]string
+		cfg                  Config
 		data                 interface{}
+		env                  map[string]string
 		expectingClientError bool
 		expectingMethodError bool
-		cfg                  Config
+		method               string
+		statusCode           int
 	}{
+		// Test good GET response
 		{
+			body:       "OK",
 			method:     "Get",
 			statusCode: 200,
-			body:       "OK",
 		},
+		// Test bad URL
 		{
-			method:     "Get",
-			statusCode: 200,
-			body:       "OK",
+			body: "OK",
 			env: map[string]string{
 				"GRAFANA_CLOUD_API_URL": "nothing",
 			},
 			expectingClientError: true,
+			method:               "Get",
+			statusCode:           200,
 		},
+		// Test bad Client
 		{
-			method:     "Get",
-			statusCode: 400,
-			body:       "",
+			body: "",
 			cfg: Config{
 				Transport: &http.Transport{},
 			},
 			expectingMethodError: true,
+			method:               "Get",
+			statusCode:           400,
 		},
+		// Test good POST response
 		{
+			body:       "OK",
 			method:     "Post",
 			statusCode: 200,
-			body:       "OK",
 		},
+		// Test bad POST response
 		{
-			method:     "Post",
-			statusCode: 400,
-			body:       "",
+			body: "",
 			cfg: Config{
 				Transport: &http.Transport{},
 			},
 			expectingMethodError: true,
+			method:               "Post",
+			statusCode:           400,
 		},
+		// Test good DELETE response
 		{
+			body:       "OK",
 			method:     "Delete",
 			statusCode: 200,
-			body:       "OK",
 		},
+		// Test bad DELETE response
 		{
-			method:     "Delete",
-			statusCode: 400,
-			body:       "",
+			body: "",
 			cfg: Config{
 				Transport: &http.Transport{},
 			},
 			expectingMethodError: true,
+			method:               "Delete",
+			statusCode:           400,
 		},
 	}
 
@@ -79,7 +86,6 @@ func TestClient(t *testing.T) {
 			return &http.Response{
 				StatusCode: test.statusCode,
 				Body:       ioutil.NopCloser(bytes.NewBufferString(test.body)),
-				Header:     make(http.Header),
 			}
 		})
 

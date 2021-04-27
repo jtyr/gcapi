@@ -1,6 +1,7 @@
 package stack
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -35,8 +36,14 @@ func New() *Stack {
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (s *Stack) SetToken(token string) {
-	s.ClientConfig.Token = token
+func (s *Stack) SetToken(value string) error {
+	if len(strings.TrimSpace(value)) == 0 {
+		return errors.New("token has zero length")
+	}
+
+	s.ClientConfig.Token = value
+
+	return nil
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.

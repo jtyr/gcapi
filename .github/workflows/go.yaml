@@ -35,6 +35,15 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Test
+        run: go test -v -cover -coverprofile /tmp/profile.cov ./...
+
+      - name: Upload test coverage
+        uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: /tmp/profile.cov
+        if: github.event_name != 'pull_request'
+
   build:
     name: Build artifacts
     if: startsWith(github.ref, 'refs/tags/v')

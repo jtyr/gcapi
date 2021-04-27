@@ -1,6 +1,7 @@
 package apikey
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -43,8 +44,14 @@ func New() *APIKey {
 }
 
 // SetToken sets the authorization token used to communicate with the API.
-func (a *APIKey) SetToken(token string) {
-	a.ClientConfig.Token = token
+func (a *APIKey) SetToken(value string) error {
+	if len(strings.TrimSpace(value)) == 0 {
+		return errors.New("token has zero length")
+	}
+
+	a.ClientConfig.Token = value
+
+	return nil
 }
 
 // SetOrgSlug makes sure the Org Slug is not an empty string.
