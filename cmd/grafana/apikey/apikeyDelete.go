@@ -46,6 +46,10 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 			return errors.New("requires NAME argument")
 		}
 
+		if argsLen > 1 {
+			return errors.New("requires only NAME argument")
+		}
+
 		if err := ak.SetName(args[0]); err != nil {
 			return err
 		}
@@ -55,6 +59,8 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 		}
 	} else if argsLen < 3 {
 		return errors.New("requires ORG_SLUG, STACK_SLUG and NAME argument")
+	} else if argsLen > 3 {
+		return errors.New("requires only ORG_SLUG, STACK_SLUG and NAME argument")
 	} else {
 		if err := ak.SetOrgSlug(args[0]); err != nil {
 			return err

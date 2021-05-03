@@ -36,6 +36,10 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 		os.Exit(0)
 	}
 
+	if argsLen > 2 {
+		return fmt.Errorf("requires only STACK_SLUG and optionally NAME argument")
+	}
+
 	if err := st.SetStackSlug(args[0]); err != nil {
 		return err
 	}

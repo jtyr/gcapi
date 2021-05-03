@@ -47,6 +47,10 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 			return errors.New("requires NAME and ROLE argument")
 		}
 
+		if argsLen > 2 {
+			return errors.New("requires only NAME and ROLE argument")
+		}
+
 		if err := ak.SetName(args[0]); err != nil {
 			return err
 		}
@@ -66,6 +70,8 @@ func checkCreateArgs(cmd *cobra.Command, args []string) error {
 		}
 	} else if argsLen < 3 {
 		return errors.New("requires STACK_SLUG, NAME and ROLE argument")
+	} else if argsLen > 3 {
+		return errors.New("requires only STACK_SLUG, NAME and ROLE argument")
 	} else {
 		if err := ak.SetStackSlug(args[0]); err != nil {
 			return err

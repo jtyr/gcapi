@@ -29,9 +29,15 @@ func NewCmdDelete() *cobra.Command {
 // checkDeleteArgs checks if the positional arguments have correct value. If no
 // args are specified, it prints out the command usage.
 func checkDeleteArgs(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
+	argsLen := len(args)
+
+	if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
+	}
+
+	if argsLen > 1 {
+		return fmt.Errorf("requires only STACK_SLUG argument")
 	}
 
 	if err := st.SetStackSlug(args[0]); err != nil {

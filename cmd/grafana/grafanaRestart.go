@@ -29,9 +29,15 @@ func NewCmdRestart() *cobra.Command {
 // checkRestartArgs checks if the positional arguments have correct value. If no
 // args are specified, it prints out the command usage.
 func checkRestartArgs(cmd *cobra.Command, args []string) error {
-	if len(args) == 0 {
+	argsLen := len(args)
+
+	if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
+	}
+
+	if argsLen > 1 {
+		return fmt.Errorf("requires only STACK_SLUG argument")
 	}
 
 	if err := gr.SetStackSlug(args[0]); err != nil {
