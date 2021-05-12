@@ -1,8 +1,8 @@
 [![Release](https://img.shields.io/github/release/jtyr/gcapi.svg)](https://github.com/jtyr/gcapi/releases)
 [![Actions status](https://github.com/jtyr/gcapi/actions/workflows/go.yaml/badge.svg)](https://github.com/jtyr/gcapi/actions/workflows/go.yaml)
-[![Coverage Status](https://coveralls.io/repos/github/jtyr/gcapi/badge.svg?branch=master)](https://coveralls.io/github/jtyr/gcapi?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
 [![Docker build](https://img.shields.io/docker/cloud/build/jtyr/gcapi-cli?label=Docker%20build&logo=docker)](https://hub.docker.com/repository/docker/jtyr/gcapi-cli)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jtyr/gcapi)](https://goreportcard.com/report/github.com/jtyr/gcapi)
+[![Coverage Status](https://coveralls.io/repos/github/jtyr/gcapi/badge.svg?branch=master)](https://coveralls.io/github/jtyr/gcapi?branch=master)
 [![License](https://img.shields.io/github/license/jtyr/gcapi)](LICENSE)
 
 
@@ -226,12 +226,6 @@ func main() {
 	fmt.Printf("New API key is: %s\n", key)
 }
 ```
-
-
-TODO
-----
-
-- Testing (help wanted)
 
 
 Author
