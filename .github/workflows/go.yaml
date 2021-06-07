@@ -16,6 +16,9 @@ jobs:
   validate:
     name: Validate source code
     runs-on: ubuntu-latest
+    env:
+      # Workaround for Go v1.16 (https://github.com/golang/go/issues/44129)
+      GOFLAGS: -mod=mod
     steps:
       - uses: actions/checkout@v2
 
