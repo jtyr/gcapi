@@ -18,7 +18,7 @@ func NewCmdList() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "list (ORG_SLUG STACK_SLUG|--grafana-api-url STRING) [NAME]",
 		Aliases: []string{"add"},
-		Short:   "List stack API keys",
+		Short:   "List API keys",
 		Long:    "List Grafana API keys in a specific Stack of the Grafana Cloud and print them out.",
 		Args:    checkListArgs,
 		Run:     runList,

@@ -16,7 +16,7 @@ func NewCmdDelete() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "delete (ORG_SLUG STACK_SLUG|--grafana-api-url STRING) NAME",
 		Aliases: []string{"add"},
-		Short:   "Delete Grafana API key",
+		Short:   "Delete API key",
 		Long:    "Delete Grafana API keys in a specific Stack of the Grafana Cloud and print them out.",
 		Args:    checkDeleteArgs,
 		Run:     runDelete,
