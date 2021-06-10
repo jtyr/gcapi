@@ -99,9 +99,11 @@ export GRAFANA_API_TOKEN='9876543210zyxwvutsrqponmlkjihgfedcba'
 #####
 
 # Create a new API key
-gcapi-cli apikey create myorgslug myname
+gcapi-cli apikey create myorgslug myname admin
 # List all API keys
 gcapi-cli apikey list myorgslug
+# List all API keys of a specific role
+gcapi-cli apikey list myorgslug --only-role-admin
 # List a specific API key
 gcapi-cli apikey list myorgslug myname
 # Delete an API key
@@ -131,7 +133,7 @@ gcapi-cli grafana restart mystackslug
 
 ## Grafana API key (using Grafana Cloud API and Grafana API)
 # Create Grafana API key
-gcapi-cli grafana apikey create mystackslug myname Viewer
+gcapi-cli grafana apikey create mystackslug myname viewer
 # List Grafana API keys
 gcapi-cli grafana apikey list myorgslug mystackslug
 # List a specific Grafana API key
