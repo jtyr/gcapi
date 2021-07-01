@@ -16,7 +16,7 @@ import (
 // NewCmdList returns a new cobra command.
 func NewCmdList() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "list (ORG_SLUG STACK_SLUG|--grafana-api-url STRING) [NAME]",
+		Use:     "list (STACK_SLUG|--grafana-api-url STRING) [NAME]",
 		Aliases: []string{"add"},
 		Short:   "List API keys",
 		Long:    "List Grafana API keys in a specific Stack of the Grafana Cloud and print them out.",
@@ -60,21 +60,15 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 	} else if argsLen == 0 {
 		cmd.Usage()
 		os.Exit(0)
-	} else if argsLen < 2 {
-		return errors.New("requires ORG_SLUG and STACK_SLUG argument")
-	} else if argsLen > 3 {
-		return errors.New("requires only ORG_SLUG, STACK_SLUG and optionally NAME argument")
+	} else if argsLen > 2 {
+		return errors.New("requires only STACK_SLUG and optionally NAME argument")
 	} else {
-		if err := ak.SetOrgSlug(args[0]); err != nil {
+		if err := ak.SetStackSlug(args[0]); err != nil {
 			return err
 		}
 
-		if err := ak.SetStackSlug(args[1]); err != nil {
-			return err
-		}
-
-		if argsLen == 3 {
-			if err := ak.SetName(args[2]); err != nil {
+		if argsLen == 2 {
+			if err := ak.SetName(args[1]); err != nil {
 				return err
 			}
 		}
@@ -97,9 +91,10 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 
 // runList runs the command's action.
 func runList(cmd *cobra.Command, args []string) {
-	list, raw, err := ak.List()
+	list, raw, ec, err := ak.List()
 	if err != nil {
-		log.Fatalf("failed to get API keys: %s", err)
+		log.Errorf("failed to get API keys: %s", err)
+		log.Exit(ec)
 	}
 
 	oraFlag, err := cmd.Flags().GetBool("only-role-admin")

@@ -135,11 +135,11 @@ gcapi-cli grafana restart mystackslug
 # Create Grafana API key
 gcapi-cli grafana apikey create mystackslug myname viewer
 # List Grafana API keys
-gcapi-cli grafana apikey list myorgslug mystackslug
+gcapi-cli grafana apikey list mystackslug
 # List a specific Grafana API key
-gcapi-cli grafana apikey list myorgslug mystackslug myname
+gcapi-cli grafana apikey list mystackslug myname
 # Delete a Grafana API key
-gcapi-cli grafana apikey delete myorgslug mystackslug myname
+gcapi-cli grafana apikey delete mystackslug myname
 
 ## Grafana API key (using only Grafana API)
 # Create Grafana API key

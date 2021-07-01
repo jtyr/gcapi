@@ -14,7 +14,7 @@ import (
 // NewCmdDelete returns a new cobra command.
 func NewCmdDelete() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "delete (ORG_SLUG STACK_SLUG|--grafana-api-url STRING) NAME",
+		Use:     "delete (STACK_SLUG|--grafana-api-url STRING) NAME",
 		Aliases: []string{"add"},
 		Short:   "Delete API key",
 		Long:    "Delete Grafana API keys in a specific Stack of the Grafana Cloud and print them out.",
@@ -57,20 +57,16 @@ func checkDeleteArgs(cmd *cobra.Command, args []string) error {
 		if err := ak.SetBaseURL(gauFlag); err != nil {
 			return err
 		}
-	} else if argsLen < 3 {
-		return errors.New("requires ORG_SLUG, STACK_SLUG and NAME argument")
-	} else if argsLen > 3 {
-		return errors.New("requires only ORG_SLUG, STACK_SLUG and NAME argument")
+	} else if argsLen < 2 {
+		return errors.New("requires STACK_SLUG and NAME argument")
+	} else if argsLen > 2 {
+		return errors.New("requires only STACK_SLUG and NAME argument")
 	} else {
-		if err := ak.SetOrgSlug(args[0]); err != nil {
+		if err := ak.SetStackSlug(args[0]); err != nil {
 			return err
 		}
 
-		if err := ak.SetStackSlug(args[1]); err != nil {
-			return err
-		}
-
-		if err := ak.SetName(args[2]); err != nil {
+		if err := ak.SetName(args[1]); err != nil {
 			return err
 		}
 

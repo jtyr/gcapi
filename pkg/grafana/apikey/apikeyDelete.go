@@ -33,7 +33,7 @@ func (a *APIKey) Delete() (string, int, error) {
 		return "", consts.ExitError, fmt.Errorf("failed to get client: %s", err)
 	}
 
-	list, _, err := a.List()
+	list, _, _, err := a.List()
 	if err != nil {
 		return "", consts.ExitError, fmt.Errorf("failed to get API key ID: %s", err)
 	}
@@ -52,7 +52,7 @@ func (a *APIKey) Delete() (string, int, error) {
 	}
 
 	// This is here only to be able to mock the Delete() response
-	if deleteClient.Transport != nil {
+	if deleteClient != nil && deleteClient.Transport != nil {
 		_client.Client = deleteClient
 		client, _ = _client.New(grafanaClientConfig)
 	}
