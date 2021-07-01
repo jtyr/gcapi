@@ -62,8 +62,8 @@ func checkListArgs(cmd *cobra.Command, args []string) error {
 		os.Exit(0)
 	} else if argsLen < 2 {
 		return errors.New("requires ORG_SLUG and STACK_SLUG argument")
-	} else if argsLen > 2 {
-		return errors.New("requires only ORG_SLUG and STACK_SLUG argument")
+	} else if argsLen > 3 {
+		return errors.New("requires only ORG_SLUG, STACK_SLUG and optionally NAME argument")
 	} else {
 		if err := ak.SetOrgSlug(args[0]); err != nil {
 			return err
