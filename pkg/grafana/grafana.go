@@ -118,10 +118,6 @@ func (g *Grafana) SetBaseURL(value string) error {
 func (g *Grafana) GetGrafanaAPIURL() (string, error) {
 	stack := _stack.New()
 
-	if err := stack.SetOrgSlug(g.OrgSlug); err != nil {
-		return "", err
-	}
-
 	if err := stack.SetStackSlug(g.StackSlug); err != nil {
 		return "", err
 	}
