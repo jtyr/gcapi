@@ -74,9 +74,9 @@ func TestAPIKeyList(t *testing.T) {
 		a := New()
 		a.SetBaseURL(test.baseURL)
 
-		list, body, ec, err := a.List()
+		list, body, err := a.List()
 		if !test.expectingError && err != nil {
-			t.Errorf("Test [%d]: failed to call List (exit code=%d): %s", i, ec, err)
+			t.Errorf("Test [%d]: failed to call List: %s", i, err)
 		}
 
 		if list != nil && len(*list) == 0 {
