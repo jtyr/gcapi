@@ -20,6 +20,7 @@ type ListItem struct {
 	LogsID                   int    `json:"hlInstanceId"`
 	LogsURL                  string `json:"hlInstanceUrl"`
 	TracesID                 int    `json:"htInstanceId"`
+	TracesURL                string `json:"htInstanceUrl"`
 	AlertManagerID           int    `json:"amInstanceId"`
 	AlertManagerGeneratorURL string `json:"amInstanceGeneratorUrl"`
 }

@@ -112,4 +112,5 @@ func printItem(data *stack.ListItem) {
 	fmt.Printf("  - URL: %s\n", data.PrometheusURL)
 	fmt.Println("Traces:")
 	fmt.Printf("  - ID:  %d\n", data.TracesID)
+	fmt.Printf("  - URL: %s\n", data.TracesURL)
 }
